@@ -1,0 +1,114 @@
+<div class="container-fluid py-4 px-5" style="background-color: #f8f9fa;">
+
+  <div class="mb-4 text-start">
+    <h1 class="fw-bold" style="color: #070485; margin-bottom: 15px;"><%= @destination.name %> Explorer</h1>
+    <h2 style="color: #0dcaf0; font-size: 1.5rem;">Découvre <%= @destination.name %> comme jamais auparavant !</h2>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <p class="mb-0" style="font-size: 1.1rem; line-height: 1.6; color: #333;">
+        <%= @destination.name %> Explorer est l'outil conçu pour ceux que refusent les voyages organisés et les agences de voyage.
+        C'est l'application qui vous permet de construire votre aventure par vos propres moyens,
+        en maîtrisant chaque étape de votre itinéraire.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <img src="/egypt.png" class="img-fluid w-100 rounded shadow" alt="Panorama" style="height: auto; display: block;">
+    </div>
+  </div>
+
+  <h3 class="text-center mb-5 fw-bold" style="color: #070485;">Construire votre aventure étape par étape</h3>
+
+  <div class="row g-4 justify-content-center">
+    <%# --- BLOC VOLS --- %>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light shadow-sm overflow-hidden">
+        <div class="ratio ratio-16x9">
+          <img src="/avion.jpg" class="card-img-top object-fit-cover" alt="Vols">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold" style="color: #070485;">Les Vols</h5>
+          <div class="mt-auto text-end">
+            <% if @trip&.id %>
+              <%= link_to "Sélectionner", trip_flights_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trips_path(trip: { destination_id: @destination.id }, next_step: "flights"), method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# --- BLOC CATÉGORIES --- %>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light shadow-sm overflow-hidden">
+        <div class="ratio ratio-16x9">
+          <img src="/explorer-categories.jpg" class="card-img-top object-fit-cover" alt="Catégories">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold" style="color: #070485;">Explorer les catégories</h5>
+          <div class="mt-auto text-end">
+            <% if @trip&.id %>
+              <%= link_to "Sélectionner", trip_categories_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trips_path(trip: { destination_id: @destination.id }, next_step: "categories"), method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# --- BLOC TRANSPORTS --- %>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 bg-light shadow-sm overflow-hidden">
+        <div class="ratio ratio-16x9">
+          <img src="/transports.jpg" class="card-img-top object-fit-cover" alt="Transports">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold" style="color: #070485;">Transports : Pays et villes</h5>
+          <div class="mt-auto text-end">
+            <% if @trip&.id %>
+              <%= link_to "Sélectionner", trip_transports_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trips_path(trip: { destination_id: @destination.id }, next_step: "transports"), method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# --- SECTION BASSE (RÉCAPITULATIF) --- %>
+  <div class="row g-4 mt-4 align-items-center">
+    <div class="col-md-3 text-center d-none d-md-block">
+      <img src="/hurghada.jpg" class="img-fluid rounded shadow-sm" style="height: 250px; width: 100%; object-fit: cover; border-radius: 15px;">
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-0 bg-light shadow-sm overflow-hidden">
+        <div class="ratio ratio-16x9">
+          <img src="/loxour.jpg" class="card-img-top object-fit-cover" alt="Récapitulatif">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold" style="color: #070485;">Récapitulatif</h5>
+          <div class="mt-auto text-end">
+            <% if @trip&.id %>
+              <%= link_to "Sélectionner", trip_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trips_path(trip: { destination_id: @destination.id }, next_step: "show"), method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 text-center d-none d-md-block">
+      <img src="/siwa.jpg" class="img-fluid rounded shadow-sm" style="height: 250px; width: 100%; object-fit: cover; border-radius: 15px;">
+    </div>
+  </div>
+
+</div>

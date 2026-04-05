@@ -1,0 +1,46 @@
+<div class="container-fluid px-5 py-5">
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Les Pays du Moyen-Orient</h1>
+    <h2 class="h4 fw-normal" style="color: #019dbd;">Explorez les trésors du Moyen-Orient en toute autonomie !</h2>
+    <p class="mt-3">Le Moyen-Orient est une région riche en contrastes, où se rencontrent désert, montagnes et littoraux ensoleillés. Chaque pays offre des paysages uniques et des expériences de voyage variées, entre aventures naturelles et découvertes hors des sentiers battus.</p>
+  </div>
+
+  <div class="row g-4">
+    <% @destinations.each do |destination| %>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm bg-white overflow-hidden h-100">
+
+          <div class="ratio ratio-16x9 bg-light">
+            <% if destination.banner_url.present? %>
+              <img src="/<%= URI.encode_www_form_component(destination.banner_url) %>"
+                   class="card-img-top object-fit-cover"
+                   alt="<%= destination.name %>">
+            <% else %>
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <i class="fa-solid fa-map-location-dot text-secondary fs-1"></i>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="card-body d-flex flex-column p-3">
+            <h5 class="card-title fw-bold m-0" style="color: #070485;"><%= destination.name %></h5>
+
+            <div class="mt-auto pt-3 d-flex justify-content-end">
+              <% if destination.name == "L'Égypte" %>
+                <%= link_to "Sélectionner", destination_path(destination),
+                            class: "btn px-4 fw-bold shadow-sm text-white",
+                            style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <% else %>
+                <span class="btn px-4 fw-bold shadow-sm text-white"
+                      style="background-color: #d35400; border: none; border-radius: 5px;">
+                  Sélectionner
+                </span>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

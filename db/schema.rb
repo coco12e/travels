@@ -10,9 +10,104 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_05_201612) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "favori_id"
+    t.bigint "trip_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trip_id"], name: "index_bookmarks_on_trip_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "destination_id", null: false
+    t.string "name"
+    t.string "photo_url"
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_categories_on_destination_id"
+  end
+
+  create_table "continents", force: :cascade do |t|
+    t.string "banner_url"
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "destinations", force: :cascade do |t|
+    t.string "banner_url"
+    t.bigint "continent_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.bigint "region_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["continent_id"], name: "index_destinations_on_continent_id"
+    t.index ["region_id"], name: "index_destinations_on_region_id"
+  end
+
+  create_table "flights", force: :cascade do |t|
+    t.string "arrival"
+    t.string "company"
+    t.string "company_return"
+    t.datetime "created_at", null: false
+    t.string "departure"
+    t.bigint "destination_id", null: false
+    t.string "duration"
+    t.string "duration_return"
+    t.datetime "land_at"
+    t.string "land_at_return"
+    t.string "photo"
+    t.string "photo_return"
+    t.string "stopover"
+    t.string "stopover_return"
+    t.datetime "take_off_at"
+    t.string "take_off_at_return"
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_flights_on_destination_id"
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "destination_id", null: false
+    t.string "name"
+    t.string "photo_url"
+    t.string "sub_category"
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_places_on_category_id"
+    t.index ["destination_id"], name: "index_places_on_destination_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transports", force: :cascade do |t|
+    t.text "advantages"
+    t.datetime "created_at", null: false
+    t.bigint "destination_id", null: false
+    t.text "disadvantages"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_transports_on_destination_id"
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "destination_id", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["destination_id"], name: "index_trips_on_destination_id"
+    t.index ["user_id"], name: "index_trips_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -25,4 +120,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_201612) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "bookmarks", "trips"
+  add_foreign_key "categories", "destinations"
+  add_foreign_key "destinations", "continents"
+  add_foreign_key "destinations", "regions"
+  add_foreign_key "flights", "destinations"
+  add_foreign_key "places", "categories"
+  add_foreign_key "places", "destinations"
+  add_foreign_key "transports", "destinations"
+  add_foreign_key "trips", "destinations"
+  add_foreign_key "trips", "users"
 end

@@ -1,0 +1,42 @@
+<div class="container-fluid px-5 py-5">
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Les vols pour se rendre en Égypte</h1>
+    <p class="text-dark w-100" style="line-height: 1.6; font-size: 1.1rem;">
+      L'application propose plusieurs options de vols pour se rendre en Égypte,
+      incluant des trajets directs et avec escales via différentes compagnies aériennes.
+    </p>
+  </div>
+
+  <% if @direct.any? %>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs selon les compagnies airlines</h3>
+    <% @direct.each do |flight| %>
+      <%= render "trips/flight_card", flight: flight %>
+    <% end %>
+  <% end %>
+
+  <% @direct_mix.each do |flight| %>
+    <%= render "trips/flight_card", flight: flight %>
+  <% end %>
+
+  <% if @escale.any? %>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Escales selon les compagnies airlines</h3>
+    <% @escale.each do |flight| %>
+      <%= render "trips/flight_card", flight: flight %>
+    <% end %>
+  <% end %>
+
+  <% if @escale_aller.any? %>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs et une escale aller selon les compagnies airlines</h3>
+    <% @escale_aller.each do |flight| %>
+      <%= render "trips/flight_card", flight: flight %>
+    <% end %>
+  <% end %>
+
+  <% if @escale_retour.any? %>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs et une escale retour selon les compagnies airlines</h3>
+    <% @escale_retour.each do |flight| %>
+      <%= render "trips/flight_card", flight: flight %>
+    <% end %>
+  <% end %>
+
+</div>
