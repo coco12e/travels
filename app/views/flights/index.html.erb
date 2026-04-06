@@ -7,36 +7,40 @@
     </p>
   </div>
 
-  <% if @direct.any? %>
-    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs selon les compagnies airlines</h3>
+  <% if @direct.any? || @direct_mix.any? %>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs</h3>
     <% @direct.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight %>
+      <%= render "trips/flight_card", flight: flight, trip: @trip %>
+    <% end %>
+    <% @direct_mix.each do |flight| %>
+      <%= render "trips/flight_card", flight: flight, trip: @trip %>
     <% end %>
   <% end %>
 
-  <% @direct_mix.each do |flight| %>
-    <%= render "trips/flight_card", flight: flight %>
-  <% end %>
-
   <% if @escale.any? %>
-    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Escales selon les compagnies airlines</h3>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols avec escales</h3>
     <% @escale.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight %>
+      <%= render "trips/flight_card", flight: flight, trip: @trip %>
     <% end %>
   <% end %>
 
   <% if @escale_aller.any? %>
-    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs et une escale aller selon les compagnies airlines</h3>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs (Retour) et une escale (Aller)</h3>
     <% @escale_aller.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight %>
+      <%= render "trips/flight_card", flight: flight, trip: @trip %>
     <% end %>
   <% end %>
 
   <% if @escale_retour.any? %>
-    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs et une escale retour selon les compagnies airlines</h3>
+    <h3 class="text-secondary mb-4 mt-5" style="font-size: 1.5rem;">Vols Directs (Aller) et une escale (Retour)</h3>
     <% @escale_retour.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight %>
+      <%= render "trips/flight_card", flight: flight, trip: @trip %>
     <% end %>
   <% end %>
 
+  <% if [@direct, @direct_mix, @escale, @escale_aller, @escale_retour].all?(&:empty?) %>
+    <div class="alert alert-info mt-5">
+      Aucun vol ne correspond à votre recherche pour le moment.
+    </div>
+  <% end %>
 </div>

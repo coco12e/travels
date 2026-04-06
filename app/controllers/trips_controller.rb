@@ -1,17 +1,12 @@
-
 class TripsController < ApplicationController
+  before_action :set_trip, only: [:show, :select_flight, :confirm, :export]
+
   def index
     @trips = current_user.trips
   end
 
-  def select_flight
-    @trip = Trip.find(params[:id])
-    @trip.update(flight_id: params[:flight_id])
-    redirect_to trip_path(@trip), notice: "Vol sélectionné !"
-  end
-
   def show
-    @trip = Trip.find(params[:id])
+    @trip = current_user.trips.includes(:flight, :transport, bookmarks: { place: :category }).find(params[:id])
     @destination = @trip.destination
   end
 
@@ -23,15 +18,47 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
     @trip.user = current_user
     if @trip.save
-      redirect_to @trip
+      case params[:next_step]
+      when "categories"
+        redirect_to trip_categories_path(@trip)
+      when "transports"
+        redirect_to trip_transports_path(@trip)
+      when "show"
+        redirect_to trip_path(@trip)
+      else
+        redirect_to trip_flights_path(@trip)
+      end
     else
       render :new, status: :unprocessable_entity
     end
   end
 
+  def export
+    @destination = @trip.destination
+    render layout: "export"
+  end
+
+  def confirm
+    if params[:unconfirm]
+      @trip.update(confirmed: false)
+    else
+      @trip.update(confirmed: true)
+    end
+    redirect_to trip_path(@trip)
+  end
+
+  def select_flight
+    @trip.update(flight_id: params[:flight_id])
+    redirect_to trip_path(@trip)
+  end
+
   private
 
+  def set_trip
+    @trip = current_user.trips.find(params[:id])
+  end
+
   def trip_params
-    params.require(:trip).permit(:destination_id)
+    params.require(:trip).permit(:destination_id, :flight_id)
   end
 end

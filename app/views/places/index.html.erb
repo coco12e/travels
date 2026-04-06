@@ -35,7 +35,12 @@
                   <p class="text-dark" style="line-height: 1.6;"><%= place.description&.gsub(/\n+/, " ") %></p>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                  <%= link_to "Sélectionner", place_path(place), class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+                  <% bookmark = @trip.bookmarks.find_by(place: place) %>
+                  <% if bookmark %>
+                    <%= button_to "Désélectionner", trip_bookmark_path(@trip, bookmark), method: :delete, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #555; border: none; border-radius: 5px;" %>
+                  <% else %>
+                    <%= button_to "Sélectionner", trip_bookmarks_path(@trip, place_id: place.id), method: :post, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+                  <% end %>
                 </div>
               </div>
               <div class="col-md-3">
@@ -67,7 +72,12 @@
                   <p class="text-dark" style="line-height: 1.6;"><%= place.description&.gsub(/\n+/, " ") %></p>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                  <%= link_to "Sélectionner", place_path(place), class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+                  <% bookmark = @trip.bookmarks.find_by(place: place) %>
+                  <% if bookmark %>
+                    <%= button_to "Désélectionner", trip_bookmark_path(@trip, bookmark), method: :delete, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #555; border: none; border-radius: 5px;" %>
+                  <% else %>
+                    <%= button_to "Sélectionner", trip_bookmarks_path(@trip, place_id: place.id), method: :post, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+                  <% end %>
                 </div>
               </div>
             <% end %>

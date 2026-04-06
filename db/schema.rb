@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_140547) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_06_164705) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,6 +102,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_140547) do
   end
 
   create_table "trips", force: :cascade do |t|
+    t.boolean "confirmed"
     t.datetime "created_at", null: false
     t.bigint "destination_id", null: false
     t.integer "flight_id"

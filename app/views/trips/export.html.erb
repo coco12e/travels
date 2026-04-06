@@ -19,7 +19,7 @@
           <%# --- SECTION VOLS --- %>
           <tr style="border-bottom: 1px solid #000;">
             <td class="fw-bold px-4" style="width: 25%; border-right: 1px solid #000;">Les vols pour rendre en Égypte</td>
-            <td class="px-4" style="width: 55%; border-right: 1px solid #000;">
+            <td class="px-4" style="width: 75%;">
               <% if @trip.flight %>
                 <div>
                   <strong><%= @trip.flight.company %></strong> — Aller : <%= @trip.flight.take_off_at %> → <%= @trip.flight.land_at %>
@@ -41,18 +41,13 @@
                 <span class="text-muted">Aucun vol sélectionné</span>
               <% end %>
             </td>
-            <td class="text-center" style="width: 20%;">
-              <% unless @trip.confirmed? %>
-                <%= link_to "Modifier", trip_flights_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-              <% end %>
-            </td>
           </tr>
 
           <%# --- SECTION CAPITALE --- %>
           <% capitale = @trip.destination.categories.find_by(name: "La Capitale et les marchés traditionnels") %>
           <tr style="border-bottom: 1px solid #000;">
             <td class="fw-bold px-4" style="border-right: 1px solid #000;">La Capitale et les marchés traditionnels</td>
-            <td class="px-4" style="border-right: 1px solid #000;">
+            <td class="px-4">
               <% if capitale %>
                 <% places = @trip.bookmarks.joins(:place).where(places: { category_id: capitale.id }).map(&:place) %>
                 <% if places.any? %>
@@ -64,22 +59,15 @@
                 <% end %>
               <% end %>
             </td>
-            <td class="text-center">
-              <% unless @trip.confirmed? %>
-                <% if capitale %>
-                  <%= link_to "Modifier", trip_category_places_path(@trip, capitale), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-                <% end %>
-              <% end %>
-            </td>
           </tr>
 
           <%# --- AUTRES VILLES --- %>
           <% cat_villes = @trip.destination.categories.find_by(name: "Les autres Villes") %>
-          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les autres Villes</td></tr>
+          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les autres Villes</td></tr>
           <% ["Alexandrie", "Assouan", "Luxor"].each do |ville| %>
             <tr style="border-bottom: 1px solid #000;">
               <td class="px-4" style="border-right: 1px solid #000;"><strong><%= ville %></strong></td>
-              <td class="px-4" style="border-right: 1px solid #000;">
+              <td class="px-4">
                 <% if cat_villes %>
                   <% places = @trip.bookmarks.joins(:place).where(places: { category_id: cat_villes.id, sub_category: "Les activités à faire à #{ville}" }).map(&:place) %>
                   <% if places.any? %>
@@ -91,23 +79,16 @@
                   <% end %>
                 <% end %>
               </td>
-              <td class="text-center">
-                <% unless @trip.confirmed? %>
-                  <% if cat_villes %>
-                    <%= link_to "Modifier", trip_category_places_path(@trip, cat_villes), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-                  <% end %>
-                <% end %>
-              </td>
             </tr>
           <% end %>
 
           <%# --- STATIONS BALNÉAIRES --- %>
           <% cat_balneaires = @trip.destination.categories.find_by(name: "Les Stations Balnéaires") %>
-          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Stations Balnéaires</td></tr>
+          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Stations Balnéaires</td></tr>
           <% ["Sharm el-Sheikh", "Marsa Matrouch", "Hurghada", "Marsa alam", "Taba", "Nuweiba"].each do |station| %>
             <tr style="border-bottom: 1px solid #000;">
               <td class="px-4" style="border-right: 1px solid #000;"><strong><%= station %></strong></td>
-              <td class="px-4" style="border-right: 1px solid #000;">
+              <td class="px-4">
                 <% if cat_balneaires %>
                   <% places = @trip.bookmarks.joins(:place).where(places: { category_id: cat_balneaires.id, sub_category: "Les activités à faire à #{station}" }).map(&:place) %>
                   <% if places.any? %>
@@ -119,92 +100,41 @@
                   <% end %>
                 <% end %>
               </td>
-              <td class="text-center">
-                <% unless @trip.confirmed? %>
-                  <% if cat_balneaires %>
-                    <%= link_to "Modifier", trip_category_places_path(@trip, cat_balneaires, sub_category: "Les activités à faire à #{station}"), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-                  <% end %>
-                <% end %>
-              </td>
             </tr>
           <% end %>
 
           <%# --- HORS CIRCUITS --- %>
-          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Hors circuits</td></tr>
+          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Hors circuits</td></tr>
           <% ["Fayoum", "Le village nubiens", "Oasis"].each do |hc| %>
             <tr style="border-bottom: 1px solid #000;">
               <td class="px-4" style="border-right: 1px solid #000;"><strong><%= hc %></strong></td>
-              <td class="px-4" style="border-right: 1px solid #000;"></td>
-              <td class="text-center">
-                <% unless @trip.confirmed? %>
-                  <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-                <% end %>
-              </td>
+              <td class="px-4"></td>
             </tr>
           <% end %>
 
           <%# --- DÉSERTS ET NIL --- %>
-          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les déserts et le Nil</td></tr>
+          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les déserts et le Nil</td></tr>
           <tr style="border-bottom: 1px solid #000;">
             <td class="px-4" style="border-right: 1px solid #000;"><strong>Les déserts</strong></td>
-            <td class="px-4" style="border-right: 1px solid #000;"></td>
-            <td class="text-center">
-              <% unless @trip.confirmed? %>
-                <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-              <% end %>
-            </td>
+            <td class="px-4"></td>
           </tr>
           <tr style="border-bottom: 1px solid #000;">
             <td class="px-4" style="border-right: 1px solid #000;"><strong>Le Nil</strong></td>
-            <td class="px-4" style="border-right: 1px solid #000;"></td>
-            <td class="text-center">
-              <% unless @trip.confirmed? %>
-                <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-              <% end %>
-            </td>
+            <td class="px-4"></td>
           </tr>
 
-          <%# --- TRANSPORTS PAYS --- %>
+          <%# --- TRANSPORTS --- %>
           <tr style="border-bottom: 1px solid #000;">
             <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans le Pays</td>
-            <td class="px-4" style="border-right: 1px solid #000;"></td>
-            <td class="text-center">
-              <% unless @trip.confirmed? %>
-                <%= link_to "Modifier", trip_transports_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-              <% end %>
-            </td>
+            <td class="px-4"></td>
           </tr>
-
-          <%# --- TRANSPORTS VILLES --- %>
           <tr style="border-bottom: 1px solid #000;">
             <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans les Villes</td>
-            <td class="px-4" style="border-right: 1px solid #000;"></td>
-            <td class="text-center">
-              <% unless @trip.confirmed? %>
-                <%= link_to "Modifier", trip_transports_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
-              <% end %>
-            </td>
-          </tr>
-
-          <%# --- VALIDATION --- %>
-          <tr>
-            <td class="fw-bold px-4 py-4" style="border-right: 1px solid #000; color: #070485; font-size: 1.5rem;">Valider</td>
-            <td colspan="2" class="px-4 text-center">
-              <% if @trip.confirmed? %>
-                <span class="btn w-100 fw-bold text-white py-3" style="background-color: #28a745; border-radius: 5px; font-size: 1.1rem; border: none;">✓ Voyage confirmé</span>
-                <%= button_to "Modifier le voyage", confirm_trip_path(@trip, unconfirm: true), method: :patch, class: "btn w-100 fw-bold text-white py-2 mt-2", style: "background-color: #070485; border-radius: 5px; font-size: 1rem; border: none;" %>
-              <% else %>
-                <%= button_to "Confirmer", confirm_trip_path(@trip), method: :patch, class: "btn w-100 fw-bold text-white py-3", style: "background-color: #d35400; border-radius: 5px; font-size: 1.1rem; border: none;" %>
-              <% end %>
-            </td>
+            <td class="px-4"></td>
           </tr>
 
         </tbody>
       </table>
     </div>
-  </div>
-
-  <div class="text-end mt-4">
-    <%= link_to "Exporter en PDF", export_trip_path(@trip), target: "_blank", class: "btn btn-outline-dark btn-sm fw-bold px-4", style: "border: 1px solid #000;" %>
   </div>
 </div>
