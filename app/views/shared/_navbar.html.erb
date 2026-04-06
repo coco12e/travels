@@ -1,37 +1,64 @@
-<nav class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+  <div class="container-fluid px-4">
+
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2 fw-bold" do %>
+      <i class="fa-solid fa-plane-departure fs-4" style="color: #070485;"></i>
+      <span style="color: #070485;">Travel</span>
     <% end %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+
+        <li class="nav-item">
+          <%= link_to "Accueil", root_path, class: "nav-link fw-semibold" %>
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Destinations", destinations_path(continent: "Moyen-Orient"), class: "nav-link fw-semibold" %>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            L'Égypte Explorer
           </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
+          <ul class="dropdown-menu shadow border-0">
+            <% egypte = Destination.find_by(name: "L'Égypte") %>
+            <li><%= link_to "L'Égypte Explorer", destination_path(egypte), class: "dropdown-item fw-bold", style: "color: #070485;" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <% trip = Trip.find_by(destination: egypte, user: current_user) %>
+            <% if trip %>
+              <li><%= link_to "Les Vols", trip_flights_path(trip), class: "dropdown-item" %></li>
+              <li><%= link_to "Explorer les catégories", trip_categories_path(trip), class: "dropdown-item" %></li>
+              <li><%= link_to "Transports : Pays et villes", trip_transports_path(trip), class: "dropdown-item" %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to "Récapitulatif", trip_path(trip), class: "dropdown-item" %></li>
+            <% else %>
+              <li><span class="dropdown-item text-muted">Aucun voyage en cours</span></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-circle-user fs-4" style="color: #070485;"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+              <li>
+                <%= link_to "Se déconnecter", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item text-danger" %>
+              </li>
+            </ul>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+            <%= link_to "Connexion", new_user_session_path, class: "btn btn-sm fw-bold text-white px-4", style: "background-color: #d35400; border-radius: 5px;" %>
           </li>
         <% end %>
+
       </ul>
     </div>
   </div>

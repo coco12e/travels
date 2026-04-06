@@ -52,7 +52,7 @@ Flight.create!(
   departure: "Paris (CDG)",
   arrival: "Le Caire (CAI)",
   take_off_at: "20h10",
-  land_at: "21h40",
+  land_at: "00h30",
   duration: "4h20",
   stopover: "",
   company_return: "Air France",
@@ -309,4 +309,117 @@ Place.create!(
 )
 
 
+cat_balneaires = created_categories["Les Stations Balnéaires"]
+
+# --- SHARM EL-SHEIKH ---
+Place.create!(
+  name: "Profiter de la plage",
+  sub_category: "Les activités à faire à Sharm el-Sheikh",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "plage.jpg",
+  description: "À Sharm el-Sheikh, on peut se détendre sur le sable, se baigner dans les eaux claires et profiter du soleil et de la mer Rouge. C'est idéal pour se reposer et admirer les paysages marins."
+)
+
+Place.create!(
+  name: "Naama Bay",
+  sub_category: "Les activités à faire à Sharm el-Sheikh",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "bay.jpg",
+  description: "À Naama Bay, on peut se balader le long de la promenade, découvrir les cafés, restaurants et boutiques, et profiter de la vie nocturne animée. C'est une activité idéale pour passer une soirée agréable sans aller à la plage."
+)
+
+Place.create!(
+  name: "Saint Catherine",
+  sub_category: "Les activités à faire à Sharm el-Sheikh",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "saint.jpg",
+  description: "À Saint Catherine, on peut faire une randonnée sur le Mont Sinaï pour admirer le lever du soleil et les paysages désertiques. On peut aussi visiter le Monastère Sainte-Catherine, un des plus anciens monastères chrétiens au monde, et découvrir l'histoire et la culture locale."
+)
+
+# --- MARSA MATROUH ---
+Place.create!(
+  name: "Se détendre sur la plage",
+  sub_category: "Les activités à faire à Marsa Matrouh",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "marsa.jpg",
+  description: "À Marsa Matrouh, les visiteurs peuvent marcher sur le sable blanc, prendre le soleil et se baigner dans les eaux turquoises. C'est parfait pour une journée tranquille au bord de la mer Méditerranée."
+)
+
+Place.create!(
+  name: "Salt Cave Salman",
+  sub_category: "Les activités à faire à Marsa Matrouh",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "salt.jpg",
+  description: "La grotte de sel Salman est un site naturel unique situé près de Marsa Matrouh. Les visiteurs peuvent explorer ses formations de sel cristallisées et découvrir un paysage souterrain fascinant, idéal pour les amateurs de nature et d'aventure."
+)
+
+# --- HURGHADA ---
+Place.create!(
+  name: "Safari dans le désert",
+  sub_category: "Les activités à faire à Hurghada",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "safari.jpg",
+  description: "On peut faire une excursion en quad ou en 4x4 dans le désert pour découvrir les paysages désertiques."
+)
+
+Place.create!(
+  name: "Plongée et snorkeling",
+  sub_category: "Les activités à faire à Hurghada",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "plonge.jpg",
+  description: "Hurghada est réputée pour ses récifs coralliens exceptionnels. Les visiteurs peuvent plonger ou faire du snorkeling pour admirer la richesse de la mer Rouge avec ses poissons tropicaux et ses coraux colorés."
+)
+
+# --- MARSA ALAM ---
+Place.create!(
+  name: "Wadi El Gemal",
+  sub_category: "Les activités à faire à Marsa Alam",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "Wadi.jpg",
+  description: "Visite du parc national Wadi El Gemal, une réserve naturelle avec des paysages désertiques, des mangroves — ces arbres qui poussent directement dans l'eau salée — et une faune sauvage unique."
+)
+
+# --- TABA ---
+Place.create!(
+  name: "Randonnée dans les montagnes",
+  sub_category: "Les activités à faire à Taba",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "taba.jpg",
+  description: "Taba est proche du Sinaï, idéal pour des randonnées dans les montagnes et canyons."
+)
+
+Place.create!(
+  name: "Visite du château de Salah el-Din",
+  sub_category: "Les activités à faire à Taba",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "din.jpg",
+  description: "Situé sur une île au milieu du golfe d'Aqaba, ce château médiéval offre une vue panoramique spectaculaire sur quatre pays : l'Égypte, Israël, la Jordanie et l'Arabie Saoudite."
+)
+
+# --- NUWEIBA ---
+Place.create!(
+  name: "Détente au bord de la mer",
+  sub_category: "Les activités à faire à Nuweiba",
+  category_id: cat_balneaires.id,
+  destination_id: egypte.id,
+  photo_url: "Nuweiba.jpg",
+  description: "Marcher sur le sable blanc, se relaxer et profiter du calme du littoral."
+)
+
+
 puts "Seeds terminées avec succès !"
+
+user = User.create!(email: "test@test.com", password: "123456")
+trip = Trip.create!(user: user, destination: egypte)
+puts "User: test@test.com / 123456"
+puts "Trip ID: #{trip.id}"

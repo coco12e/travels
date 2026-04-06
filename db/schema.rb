@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_06_140547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "bookmarks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "favori_id"
+    t.bigint "place_id", null: false
     t.bigint "trip_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_bookmarks_on_place_id"
     t.index ["trip_id"], name: "index_bookmarks_on_trip_id"
   end
 
@@ -58,13 +60,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
     t.bigint "destination_id", null: false
     t.string "duration"
     t.string "duration_return"
-    t.datetime "land_at"
+    t.string "land_at"
     t.string "land_at_return"
     t.string "photo"
     t.string "photo_return"
     t.string "stopover"
     t.string "stopover_return"
-    t.datetime "take_off_at"
+    t.string "take_off_at"
     t.string "take_off_at_return"
     t.datetime "updated_at", null: false
     t.index ["destination_id"], name: "index_flights_on_destination_id"
@@ -102,10 +104,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
   create_table "trips", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "destination_id", null: false
+    t.integer "flight_id"
     t.string "name"
+    t.bigint "transport_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["destination_id"], name: "index_trips_on_destination_id"
+    t.index ["transport_id"], name: "index_trips_on_transport_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
@@ -121,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookmarks", "places"
   add_foreign_key "bookmarks", "trips"
   add_foreign_key "categories", "destinations"
   add_foreign_key "destinations", "continents"
@@ -130,5 +136,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_203651) do
   add_foreign_key "places", "destinations"
   add_foreign_key "transports", "destinations"
   add_foreign_key "trips", "destinations"
+  add_foreign_key "trips", "transports"
   add_foreign_key "trips", "users"
 end

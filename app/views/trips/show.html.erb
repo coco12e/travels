@@ -1,0 +1,124 @@
+<div class="container-fluid px-5 py-5">
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-3" style="color: #070485;">Le récapitulatif complet</h1>
+    <p class="text-dark w-100" style="line-height: 1.6; font-size: 1.1rem;">
+      Le récapitulatif complet est la page de synthèse qui permet de visualiser l'ensemble de l'aventure que vous avez construite.
+      Cet outil est conçu pour offrir une maîtrise totale de votre itinéraire avant le départ.
+    </p>
+  </div>
+
+  <div class="card shadow-sm" style="border: 1px solid #000;">
+    <div class="card-header bg-white text-center py-4" style="border-bottom: 1px solid #000;">
+      <h2 class="fw-bold mb-0" style="color: #000;">Résumé du voyage</h2>
+    </div>
+
+    <div class="card-body p-0">
+      <table class="table table-bordered mb-0 align-middle" style="border: 1px solid #000; border-collapse: collapse; width: 100%;">
+        <tbody>
+
+          <%# --- SECTION VOLS --- %>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="fw-bold px-4" style="width: 25%; border-right: 1px solid #000;">Les vols pour rendre en Égypte</td>
+            <td class="px-4" style="width: 55%; border-right: 1px solid #000;"><% if @trip.flight %><div><strong><%= @trip.flight.company %></strong> — Aller : <%= @trip.flight.take_off_at %> → <%= @trip.flight.land_at %></div><div><strong><%= @trip.flight.company_return %></strong> — Retour : <%= @trip.flight.take_off_at_return %> → <%= @trip.flight.land_at_return %></div><% end %></td>
+            <td class="text-center" style="width: 20%;">
+              <%= link_to "Modifier", trip_flights_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+
+          <%# --- SECTION CAPITALE --- %>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="fw-bold px-4" style="border-right: 1px solid #000;">La Capitale et les marchés traditionnels</td>
+            <td class="px-4" style="border-right: 1px solid #000;"></td>
+            <td class="text-center">
+              <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+
+          <%# --- AUTRES VILLES --- %>
+          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les autres Villes</td></tr>
+          <% ["Alexandrie", "Assouan", "Luxor"].each do |ville| %>
+            <tr style="border-bottom: 1px solid #000;">
+              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= ville %></strong></td>
+              <td class="px-4" style="border-right: 1px solid #000;"></td>
+              <td class="text-center">
+                <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <%# --- STATIONS BALNÉAIRES --- %>
+          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Stations Balnéaires</td></tr>
+          <% ["Sharm el-Sheikh", "Marsa Matrouch", "Hurghada", "Marsa alam", "Taba", "Nuweiba"].each do |station| %>
+            <tr style="border-bottom: 1px solid #000;">
+              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= station %></strong></td>
+              <td class="px-4" style="border-right: 1px solid #000;"></td>
+              <td class="text-center">
+                <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <%# --- HORS CIRCUITS --- %>
+          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Hors circuits</td></tr>
+          <% ["Fayoum", "Le village nubiens", "Oasis"].each do |hc| %>
+            <tr style="border-bottom: 1px solid #000;">
+              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= hc %></strong></td>
+              <td class="px-4" style="border-right: 1px solid #000;"></td>
+              <td class="text-center">
+                <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <%# --- DÉSERTS ET NIL --- %>
+          <tr><td colspan="3" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les déserts et le Nil</td></tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="px-4" style="border-right: 1px solid #000;"><strong>Les déserts</strong></td>
+            <td class="px-4" style="border-right: 1px solid #000;"></td>
+            <td class="text-center">
+              <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="px-4" style="border-right: 1px solid #000;"><strong>Le Nil</strong></td>
+            <td class="px-4" style="border-right: 1px solid #000;"></td>
+            <td class="text-center">
+              <%= link_to "Modifier", trip_categories_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+
+          <%# --- TRANSPORTS PAYS --- %>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans le Pays</td>
+            <td class="px-4" style="border-right: 1px solid #000;"></td>
+            <td class="text-center">
+              <%= link_to "Modifier", trip_transports_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+
+          <%# --- TRANSPORTS VILLES --- %>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans les Villes</td>
+            <td class="px-4" style="border-right: 1px solid #000;"></td>
+            <td class="text-center">
+              <%= link_to "Modifier", trip_transports_path(@trip), class: "btn fw-bold text-white", style: "background-color: #d35400; border-radius: 5px; width: 140px; border: none;" %>
+            </td>
+          </tr>
+
+          <%# --- VALIDATION --- %>
+          <tr>
+            <td class="fw-bold px-4 py-4" style="border-right: 1px solid #000; color: #070485; font-size: 1.5rem;">Valider</td>
+            <td colspan="2" class="px-4 text-center">
+              <button class="btn w-100 fw-bold text-white py-3" style="background-color: #d35400; border-radius: 5px; font-size: 1.1rem; border: none;">Confirmer</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="text-end mt-4">
+    <button class="btn btn-outline-dark btn-sm fw-bold px-4" style="border: 1px solid #000;">Exporter en PDF</button>
+  </div>
+</div>

@@ -32,7 +32,7 @@
           <div class="col-2 border-end border-dark d-flex align-items-center justify-content-center fw-bold h-100 bg-white" style="font-size: 1.2rem;">Aller</div>
           <div class="col-10 px-4">
             <div class="d-flex align-items-center justify-content-between w-100">
-              <span class="fw-bold" style="font-size: 1.3rem;"><%= flight.take_off_at.strftime("%Hh%M") rescue flight.take_off_at %></span>
+              <span class="fw-bold" style="font-size: 1.3rem;"><%= flight.take_off_at %></span>
               <div class="flex-grow-1 mx-5 text-center">
                 <div class="fw-bold mb-1"><%= flight.company %></div>
                 <%= render "trips/flight_arrow" %>
@@ -43,7 +43,7 @@
                   <% end %>
                 </div>
               </div>
-              <span class="fw-bold" style="font-size: 1.3rem;"><%= flight.land_at.strftime("%Hh%M") rescue flight.land_at %></span>
+              <span class="fw-bold" style="font-size: 1.3rem;"><%= flight.land_at %></span>
             </div>
           </div>
         </div>
@@ -74,7 +74,8 @@
   </div>
 
   <div class="mt-2 d-flex justify-content-end">
-    <%= link_to "Sélectionner", trip_categories_path(@trip),
+    <%= button_to "Sélectionner", select_flight_trip_path(@trip, flight_id: flight.id),
+          method: :patch,
           class: "btn px-4 fw-bold shadow-sm text-white",
           style: "background-color: #d35400; border: none; border-radius: 5px;" %>
   </div>

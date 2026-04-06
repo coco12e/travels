@@ -13,9 +13,9 @@
 
           <div class="ratio ratio-16x9 bg-light">
             <% if category.photo_url.present? %>
-              <%= image_tag category.photo_url,
-                    class: "card-img-top object-fit-cover",
-                    alt: category.name %>
+              <img src="/<%= URI.encode_www_form_component(category.photo_url) %>"
+                   class="card-img-top object-fit-cover"
+                   alt="<%= category.name %>">
             <% else %>
               <div class="d-flex align-items-center justify-content-center h-100">
                 <i class="fa-solid fa-image text-secondary fs-1"></i>
