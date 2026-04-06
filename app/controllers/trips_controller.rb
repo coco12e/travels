@@ -6,7 +6,6 @@ class TripsController < ApplicationController
   end
 
   def show
-    @trip = current_user.trips.includes(:flight, :transport, bookmarks: { place: :category }).find(params[:id])
     @destination = @trip.destination
   end
 
@@ -17,16 +16,17 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @trip.user = current_user
+
     if @trip.save
       case params[:next_step]
-      when "categories"
-        redirect_to trip_categories_path(@trip)
+      when "flights"
+        redirect_to trip_flights_path(@trip)
       when "transports"
         redirect_to trip_transports_path(@trip)
       when "show"
         redirect_to trip_path(@trip)
       else
-        redirect_to trip_flights_path(@trip)
+        redirect_to trip_categories_path(@trip)
       end
     else
       render :new, status: :unprocessable_entity

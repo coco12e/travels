@@ -16,26 +16,17 @@
       <table class="table table-bordered mb-0 align-middle" style="border: 1px solid #000; border-collapse: collapse; width: 100%;">
         <tbody>
 
-          <%# --- SECTION VOLS --- %>
           <tr style="border-bottom: 1px solid #000;">
-            <td class="fw-bold px-4" style="width: 25%; border-right: 1px solid #000;">Les vols pour rendre en Égypte</td>
+            <td class="fw-bold px-4" style="width: 25%; border-right: 1px solid #000;">Les vols pour se rendre en Égypte</td>
             <td class="px-4" style="width: 75%;">
               <% if @trip.flight %>
                 <div>
                   <strong><%= @trip.flight.company %></strong> — Aller : <%= @trip.flight.take_off_at %> → <%= @trip.flight.land_at %>
-                  <% if @trip.flight.stopover.present? && !["", "0", "Direct"].include?(@trip.flight.stopover) %>
-                    <span class="text-muted small">(<%= @trip.flight.stopover %>)</span>
-                  <% else %>
-                    <span class="text-muted small">(direct)</span>
-                  <% end %>
+                  <span class="text-muted small">(<%= @trip.flight.stopover.present? ? @trip.flight.stopover : "direct" %>)</span>
                 </div>
                 <div>
                   <strong><%= @trip.flight.company_return %></strong> — Retour : <%= @trip.flight.take_off_at_return %> → <%= @trip.flight.land_at_return %>
-                  <% if @trip.flight.stopover_return.present? && !["", "0", "Direct"].include?(@trip.flight.stopover_return) %>
-                    <span class="text-muted small">(<%= @trip.flight.stopover_return %>)</span>
-                  <% else %>
-                    <span class="text-muted small">(direct)</span>
-                  <% end %>
+                  <span class="text-muted small">(<%= @trip.flight.stopover_return.present? ? @trip.flight.stopover_return : "direct" %>)</span>
                 </div>
               <% else %>
                 <span class="text-muted">Aucun vol sélectionné</span>
@@ -43,94 +34,75 @@
             </td>
           </tr>
 
-          <%# --- SECTION CAPITALE --- %>
-          <% capitale = @trip.destination.categories.find_by(name: "La Capitale et les marchés traditionnels") %>
-          <tr style="border-bottom: 1px solid #000;">
-            <td class="fw-bold px-4" style="border-right: 1px solid #000;">La Capitale et les marchés traditionnels</td>
-            <td class="px-4">
-              <% if capitale %>
-                <% places = @trip.bookmarks.joins(:place).where(places: { category_id: capitale.id }).map(&:place) %>
-                <% if places.any? %>
-                  <% places.each do |place| %>
-                    <div><strong><%= place.name %></strong></div>
-                  <% end %>
-                <% else %>
-                  <span class="text-muted">Aucun lieu sélectionné</span>
+          <%
+            categories_mapping = {
+              "La Capitale et les marchés traditionnels" => nil,
+              "Les autres Villes" => ["Alexandrie", "Assouan", "Louxor"],
+              "Les Stations Balnéaires" => ["Sharm el-Sheikh", "Marsa Matrouh", "Hurghada", "Marsa Alam", "Taba", "Nuweiba"],
+              "Les Hors circuits" => ["Fayoum", "Le village nubiens", "Oasis"],
+              "Les déserts et le Nil" => ["déserts", "Nil"]
+            }
+          %>
+
+          <% categories_mapping.each do |cat_name, sous_elements| %>
+            <% category = Category.find_by(name: cat_name) %>
+            <% if category %>
+              <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;"><%= cat_name %></td></tr>
+
+              <% if sous_elements.nil? %>
+                <tr style="border-bottom: 1px solid #000;">
+                  <td class="fw-bold px-4" style="border-right: 1px solid #000;">Activités</td>
+                  <td class="px-4">
+                    <% places = @trip.bookmarks.joins(:place).where(places: { category_id: category.id }).map(&:place) %>
+                    <% if places.any? %>
+                      <% places.each do |place| %><div><strong><%= place.name %></strong></div><% end %>
+                    <% else %>
+                      <span class="text-muted">Aucune activité sélectionnée</span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% else %>
+                <% sous_elements.each do |elem| %>
+                  <tr style="border-bottom: 1px solid #000;">
+                    <td class="px-4" style="border-right: 1px solid #000;"><strong><%= elem %></strong></td>
+                    <td class="px-4">
+                      <% search_term = elem.length > 5 ? elem.first(7) : elem.first(4) %>
+                      <% places = @trip.bookmarks.joins(:place)
+                                       .where(places: { category_id: category.id })
+                                       .where("places.sub_category ILIKE ?", "%#{search_term}%")
+                                       .map(&:place) %>
+                      <% if places.any? %>
+                        <% places.each do |place| %><div><strong><%= place.name %></strong></div><% end %>
+                      <% else %>
+                        <span class="text-muted">Aucune activité sélectionnée</span>
+                      <% end %>
+                    </td>
+                  </tr>
                 <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Transports</td></tr>
+          <tr style="border-bottom: 1px solid #000;">
+            <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans le Pays</td>
+            <td class="px-4">
+              <% if @trip.transport %>
+                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% else %>
+                <span class="text-muted">Aucun transport sélectionné</span>
               <% end %>
             </td>
           </tr>
-
-          <%# --- AUTRES VILLES --- %>
-          <% cat_villes = @trip.destination.categories.find_by(name: "Les autres Villes") %>
-          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les autres Villes</td></tr>
-          <% ["Alexandrie", "Assouan", "Luxor"].each do |ville| %>
-            <tr style="border-bottom: 1px solid #000;">
-              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= ville %></strong></td>
-              <td class="px-4">
-                <% if cat_villes %>
-                  <% places = @trip.bookmarks.joins(:place).where(places: { category_id: cat_villes.id, sub_category: "Les activités à faire à #{ville}" }).map(&:place) %>
-                  <% if places.any? %>
-                    <% places.each do |place| %>
-                      <div><strong><%= place.name %></strong></div>
-                    <% end %>
-                  <% else %>
-                    <span class="text-muted">Aucun lieu sélectionné</span>
-                  <% end %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-
-          <%# --- STATIONS BALNÉAIRES --- %>
-          <% cat_balneaires = @trip.destination.categories.find_by(name: "Les Stations Balnéaires") %>
-          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Stations Balnéaires</td></tr>
-          <% ["Sharm el-Sheikh", "Marsa Matrouch", "Hurghada", "Marsa alam", "Taba", "Nuweiba"].each do |station| %>
-            <tr style="border-bottom: 1px solid #000;">
-              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= station %></strong></td>
-              <td class="px-4">
-                <% if cat_balneaires %>
-                  <% places = @trip.bookmarks.joins(:place).where(places: { category_id: cat_balneaires.id, sub_category: "Les activités à faire à #{station}" }).map(&:place) %>
-                  <% if places.any? %>
-                    <% places.each do |place| %>
-                      <div><strong><%= place.name %></strong></div>
-                    <% end %>
-                  <% else %>
-                    <span class="text-muted">Aucun lieu sélectionné</span>
-                  <% end %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-
-          <%# --- HORS CIRCUITS --- %>
-          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les Hors circuits</td></tr>
-          <% ["Fayoum", "Le village nubiens", "Oasis"].each do |hc| %>
-            <tr style="border-bottom: 1px solid #000;">
-              <td class="px-4" style="border-right: 1px solid #000;"><strong><%= hc %></strong></td>
-              <td class="px-4"></td>
-            </tr>
-          <% end %>
-
-          <%# --- DÉSERTS ET NIL --- %>
-          <tr><td colspan="2" class="text-center fw-bold py-2 bg-light" style="border-bottom: 1px solid #000;">Les déserts et le Nil</td></tr>
-          <tr style="border-bottom: 1px solid #000;">
-            <td class="px-4" style="border-right: 1px solid #000;"><strong>Les déserts</strong></td>
-            <td class="px-4"></td>
-          </tr>
-          <tr style="border-bottom: 1px solid #000;">
-            <td class="px-4" style="border-right: 1px solid #000;"><strong>Le Nil</strong></td>
-            <td class="px-4"></td>
-          </tr>
-
-          <%# --- TRANSPORTS --- %>
-          <tr style="border-bottom: 1px solid #000;">
-            <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans le Pays</td>
-            <td class="px-4"></td>
-          </tr>
           <tr style="border-bottom: 1px solid #000;">
             <td class="fw-bold px-4" style="border-right: 1px solid #000;">Transports dans les Villes</td>
-            <td class="px-4"></td>
+            <td class="px-4">
+              <% if @trip.transport %>
+                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% else %>
+                <span class="text-muted">Aucun transport sélectionné</span>
+              <% end %>
+            </td>
           </tr>
 
         </tbody>

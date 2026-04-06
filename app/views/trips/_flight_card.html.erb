@@ -2,32 +2,29 @@
   <div class="border border-dark bg-white shadow-sm">
     <div class="row g-0 align-items-stretch">
 
-      <%# Colonne logos compagnies %>
       <div class="col-3 border-end border-dark bg-light d-flex flex-column justify-content-center align-items-center p-3" style="min-height: 190px;">
         <% if flight.company == flight.company_return %>
           <% if flight.photo.present? %>
-            <img src="/<%= URI.encode_www_form_component(flight.photo) %>" class="img-fluid" style="max-height: 100px; object-fit: contain;">
+            <img src="/<%= flight.photo %>" class="img-fluid" style="max-height: 100px; object-fit: contain;">
           <% else %>
             <span class="fw-bold text-muted text-uppercase"><%= flight.company %></span>
           <% end %>
         <% else %>
           <div class="w-100 text-center pb-3 border-bottom border-dark mb-3">
             <% if flight.photo.present? %>
-              <img src="/<%= URI.encode_www_form_component(flight.photo) %>" class="img-fluid" style="max-height: 60px; object-fit: contain;">
+              <img src="/<%= flight.photo %>" class="img-fluid" style="max-height: 60px; object-fit: contain;">
             <% end %>
           </div>
           <div class="w-100 text-center">
             <% if flight.photo_return.present? %>
-              <img src="/<%= URI.encode_www_form_component(flight.photo_return) %>" class="img-fluid" style="max-height: 60px; object-fit: contain;">
+              <img src="/<%= flight.photo_return %>" class="img-fluid" style="max-height: 60px; object-fit: contain;">
             <% end %>
           </div>
         <% end %>
       </div>
 
-      <%# Colonne aller / retour %>
       <div class="col-9">
 
-        <%# Ligne Aller %>
         <div class="row g-0 border-bottom border-dark align-items-center" style="min-height: 95px;">
           <div class="col-2 border-end border-dark d-flex align-items-center justify-content-center fw-bold h-100 bg-white" style="font-size: 1.2rem;">Aller</div>
           <div class="col-10 px-4">
@@ -48,7 +45,6 @@
           </div>
         </div>
 
-        <%# Ligne Retour %>
         <div class="row g-0 align-items-center" style="min-height: 95px;">
           <div class="col-2 border-end border-dark d-flex align-items-center justify-content-center fw-bold h-100 bg-white" style="font-size: 1.2rem;">Retour</div>
           <div class="col-10 px-4">

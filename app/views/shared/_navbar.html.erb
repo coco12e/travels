@@ -29,15 +29,17 @@
             <% egypte = Destination.find_by(name: "L'Égypte") %>
             <li><%= link_to "L'Égypte Explorer", destination_path(egypte), class: "dropdown-item fw-bold", style: "color: #070485;" %></li>
             <li><hr class="dropdown-divider"></li>
-            <% trip = Trip.find_by(destination: egypte, user: current_user) %>
-            <% if trip %>
-              <li><%= link_to "Les Vols", trip_flights_path(trip), class: "dropdown-item" %></li>
-              <li><%= link_to "Explorer les catégories", trip_categories_path(trip), class: "dropdown-item" %></li>
-              <li><%= link_to "Transports : Pays et villes", trip_transports_path(trip), class: "dropdown-item" %></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><%= link_to "Récapitulatif", trip_path(trip), class: "dropdown-item" %></li>
-            <% else %>
-              <li><span class="dropdown-item text-muted">Aucun voyage en cours</span></li>
+            <% if user_signed_in? %>
+              <% trip = current_user.trips.find_by(destination: egypte) %>
+              <% if trip %>
+                <li><%= link_to "Les Vols", trip_flights_path(trip), class: "dropdown-item" %></li>
+                <li><%= link_to "Explorer les catégories", trip_categories_path(trip), class: "dropdown-item" %></li>
+                <li><%= link_to "Transports : Pays et villes", trip_transports_path(trip), class: "dropdown-item" %></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= link_to "Récapitulatif", trip_path(trip), class: "dropdown-item" %></li>
+              <% else %>
+                <li><span class="dropdown-item text-muted">Aucun voyage en cours</span></li>
+              <% end %>
             <% end %>
           </ul>
         </li>

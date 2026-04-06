@@ -1,10 +1,10 @@
 class DestinationsController < ApplicationController
   def index
-    if params[:continent].present?
-      @continent = Continent.find_by(name: params[:continent])
-      @destinations = @continent ? Destination.where(continent_id: @continent.id) : Destination.all
+    @destinations = if params[:continent].present?
+      continent = Continent.find_by(name: params[:continent])
+      continent ? continent.destinations : Destination.all
     else
-      @destinations = Destination.all
+      Destination.all
     end
   end
 

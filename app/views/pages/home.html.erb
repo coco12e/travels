@@ -11,7 +11,7 @@
 
           <div class="ratio ratio-16x9 bg-light">
             <% if continent.banner_url.present? %>
-              <img src="/<%= URI.encode_www_form_component(continent.banner_url) %>"
+              <img src="<%= continent.banner_url %>"
                    class="card-img-top object-fit-cover"
                    alt="<%= continent.name %>">
             <% else %>

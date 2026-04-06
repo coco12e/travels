@@ -1,14 +1,15 @@
 <div class="container-fluid px-5 py-5">
   <div class="mb-5">
     <h1 class="display-4 fw-bold mb-4" style="color: #070485;">
-      <%= @category&.name&.gsub("Cpaitale", "Capitale") %>
+      <%= @category&.name %>
     </h1>
     <div class="fs-5 text-dark">
-      <% if @category&.name&.include?("Capitale") %>
+      <% case @category&.name %>
+      <% when /Capitale/ %>
         <p class="m-0">Cette section invite les voyageurs à découvrir les paysages emblématiques et les trésors architecturaux qui jalonnent la vallée du Nil au cœur de la capitale égyptienne.</p>
-      <% elsif @category&.name == "Les autres Villes" %>
+      <% when "Les autres Villes" %>
         <p class="m-0">Cette section invite les voyageurs à découvrir les paysages emblématiques et les trésors architecturaux qui jalonnent la vallée du Nil et le littoral méditerranéen.</p>
-      <% elsif @category&.name == "Les Stations Balnéaires" %>
+      <% when "Les Stations Balnéaires" %>
         <p class="m-0">Cette section propose des expériences uniques pour les voyageurs souhaitant s'éloigner des parcours classiques et découvrir des paysages naturels spectaculaires, tant sur la mer Rouge que sur la Méditerranée.</p>
       <% else %>
         <p class="m-0">Découvrez les trésors de cette catégorie pour votre itinéraire personnalisé.</p>
@@ -19,21 +20,34 @@
   <div class="row">
     <div class="col-12">
       <% @places.group_by(&:sub_category).each do |sub_cat_name, places| %>
-
         <% if sub_cat_name.present? %>
-          <% titre = places.size == 1 ? sub_cat_name.gsub("Les activités", "L'activité") : sub_cat_name %>
-          <h2 class="fw-bold mb-4 mt-5" style="color: #070485;"><%= titre %></h2>
+          <h2 class="fw-bold mb-4 mt-5" style="color: #070485;">
+            <%= places.size == 1 ? sub_cat_name.gsub("Les activités", "L'activité") : sub_cat_name %>
+          </h2>
         <% end %>
 
         <% places.each do |place| %>
           <div class="row mb-5 g-4 align-items-stretch overflow-hidden">
+            <div class="col-12 d-md-flex <%= 'flex-row-reverse' if place.name == 'Naama Bay' %>">
 
-            <% if place.name == "Naama Bay" %>
-              <div class="col-md-9 d-flex flex-column justify-content-between">
-                <div>
-                  <h4 class="fw-bold mb-3 text-dark"><%= place.name %></h4>
-                  <p class="text-dark" style="line-height: 1.6;"><%= place.description&.gsub(/\n+/, " ") %></p>
+              <div class="col-md-3">
+                <div class="ratio ratio-4x3 bg-light rounded-1 overflow-hidden border h-100">
+                  <% if place.photo_url.present? %>
+                    <img src="/<%= place.photo_url.strip %>" class="img-fluid w-100 h-100 object-fit-cover" alt="<%= place.name %>">
+                  <% else %>
+                    <div class="d-flex align-items-center justify-content-center h-100 bg-white">
+                      <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
+                    </div>
+                  <% end %>
                 </div>
+              </div>
+
+              <div class="col-md-9 d-flex flex-column justify-content-between px-md-4">
+                <div>
+                  <h4 class="fw-bold mb-3 text-dark mt-3 mt-md-0"><%= place.name %></h4>
+                  <p class="text-dark" style="line-height: 1.6;"><%= place.description&.squish %></p>
+                </div>
+
                 <div class="d-flex justify-content-end mt-3">
                   <% bookmark = @trip.bookmarks.find_by(place: place) %>
                   <% if bookmark %>
@@ -43,45 +57,8 @@
                   <% end %>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="ratio ratio-4x3 bg-light rounded-1 overflow-hidden border">
-                  <% if place.photo_url.present? %>
-                    <img src="/<%= URI.encode_www_form_component(place.photo_url.strip) %>" class="img-fluid w-100 h-100 object-fit-cover" alt="<%= place.name %>">
-                  <% else %>
-                    <div class="d-flex align-items-center justify-content-center h-100 bg-white">
-                      <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% else %>
-              <div class="col-md-3">
-                <div class="ratio ratio-4x3 bg-light rounded-1 overflow-hidden border">
-                  <% if place.photo_url.present? %>
-                    <img src="/<%= URI.encode_www_form_component(place.photo_url.strip) %>" class="img-fluid w-100 h-100 object-fit-cover" alt="<%= place.name %>">
-                  <% else %>
-                    <div class="d-flex align-items-center justify-content-center h-100 bg-white">
-                      <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-              <div class="col-md-9 d-flex flex-column justify-content-between">
-                <div>
-                  <h4 class="fw-bold mb-3 text-dark"><%= place.name %></h4>
-                  <p class="text-dark" style="line-height: 1.6;"><%= place.description&.gsub(/\n+/, " ") %></p>
-                </div>
-                <div class="d-flex justify-content-end mt-3">
-                  <% bookmark = @trip.bookmarks.find_by(place: place) %>
-                  <% if bookmark %>
-                    <%= button_to "Désélectionner", trip_bookmark_path(@trip, bookmark), method: :delete, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #555; border: none; border-radius: 5px;" %>
-                  <% else %>
-                    <%= button_to "Sélectionner", trip_bookmarks_path(@trip, place_id: place.id), method: :post, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
 
+            </div>
           </div>
         <% end %>
       <% end %>
