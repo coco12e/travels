@@ -1,13 +1,13 @@
-<div class="container-fluid py-4 px-5" style="background-color: #f8f9fa;">
+<div class="container-fluid py-4 px-5 bg-light">
 
   <div class="mb-4 text-start">
-    <h1 class="fw-bold" style="color: #070485; margin-bottom: 15px;">Égypte Explorer</h1>
-    <h2 style="color: #0dcaf0; font-size: 1.5rem;">Découvre l'Égypte comme jamais auparavant !</h2>
+    <h1 class="fw-bold mb-3" style="color: #070485;">Égypte Explorer</h1>
+    <h2 class="fs-4" style="color: #019dbd;">Découvre l'Égypte comme jamais auparavant !</h2>
   </div>
 
   <div class="row mb-5">
     <div class="col-12">
-      <p class="mb-0" style="font-size: 1.1rem; line-height: 1.6; color: #333;">
+      <p class="mb-0 fs-5 lh-lg" style="color: #333;">
         Égypte Explorer est l'outil conçu pour ceux qui refusent les voyages organisés.
         Construisez votre aventure par vos propres moyens en maîtrisant chaque étape.
       </p>
@@ -16,7 +16,7 @@
 
   <div class="row mb-5">
     <div class="col-12">
-      <img src="/egypt.png" class="img-fluid w-100 rounded shadow" alt="Égypte Panorama" style="height: auto; display: block;">
+      <img src="/egypt.png" class="img-fluid w-100 rounded shadow" alt="Égypte Panorama">
     </div>
   </div>
 
@@ -33,9 +33,9 @@
           <h5 class="card-title fw-bold" style="color: #070485;">Les Vols</h5>
           <div class="mt-auto text-end">
             <% if @trip %>
-              <%= link_to "Sélectionner", trip_flights_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= link_to "Sélectionner", trip_flights_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% else %>
-              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "flights" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "flights" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% end %>
           </div>
         </div>
@@ -51,9 +51,9 @@
           <h5 class="card-title fw-bold" style="color: #070485;">Explorer les catégories</h5>
           <div class="mt-auto text-end">
             <% if @trip %>
-              <%= link_to "Sélectionner", trip_categories_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= link_to "Sélectionner", trip_categories_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% else %>
-              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "categories" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "categories" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% end %>
           </div>
         </div>
@@ -69,9 +69,9 @@
           <h5 class="card-title fw-bold" style="color: #070485;">Transports : Pays et villes</h5>
           <div class="mt-auto text-end">
             <% if @trip %>
-              <%= link_to "Sélectionner", trip_transports_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= link_to "Sélectionner", trip_transports_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% else %>
-              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "transports" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "transports" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% end %>
           </div>
         </div>
@@ -81,7 +81,7 @@
 
   <div class="row g-4 mt-4 align-items-center">
     <div class="col-md-3 d-none d-md-block">
-      <img src="/hurghada.jpg" class="img-fluid rounded shadow-sm" style="height: 250px; width: 100%; object-fit: cover; border-radius: 15px;">
+      <img src="/hurghada.jpg" class="img-fluid rounded shadow-sm object-fit-cover" style="height: 250px; width: 100%;">
     </div>
 
     <div class="col-md-6">
@@ -93,9 +93,9 @@
           <h5 class="card-title fw-bold" style="color: #070485;">Récapitulatif</h5>
           <div class="mt-auto text-end">
             <% if @trip %>
-              <%= link_to "Sélectionner", trip_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= link_to "Sélectionner", trip_path(@trip), class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% else %>
-              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "show" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+              <%= button_to "Sélectionner", trips_path, params: { trip: { destination_id: @destination.id }, next_step: "show" }, method: :post, class: "btn shadow-sm px-4 text-white fw-bold border-0 rounded-2", style: "background-color: #d35400;" %>
             <% end %>
           </div>
         </div>
@@ -103,7 +103,7 @@
     </div>
 
     <div class="col-md-3 d-none d-md-block">
-      <img src="/siwa.jpg" class="img-fluid rounded shadow-sm" style="height: 250px; width: 100%; object-fit: cover; border-radius: 15px;">
+      <img src="/siwa.jpg" class="img-fluid rounded shadow-sm object-fit-cover" style="height: 250px; width: 100%;">
     </div>
   </div>
 

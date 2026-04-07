@@ -2,7 +2,7 @@
   <div class="mb-5">
     <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Les Pays du Moyen-Orient</h1>
     <h2 class="h4 fw-normal" style="color: #019dbd;">Explorez les trésors du Moyen-Orient en toute autonomie !</h2>
-    <p class="mb-0" style="font-size: 1.1rem; line-height: 1.6; color: #333;">
+    <p class="mb-0 fs-5 lh-lg" style="color: #333;">
       Le Moyen-Orient est une région riche en contrastes, où se rencontrent désert, montagnes et littoraux ensoleillés. Chaque pays offre des paysages uniques et des expériences de voyage variées, entre aventures naturelles et découvertes hors des sentiers battus.
     </p>
   </div>
@@ -10,7 +10,7 @@
   <div class="row g-4">
     <% @destinations.each do |destination| %>
       <div class="col-12 col-md-6 col-lg-4">
-        <div class="card border-0 shadow-sm bg-white overflow-hidden h-100">
+        <div class="card border-0 shadow-sm bg-white overflow-hidden h-100 rounded-3">
           <div class="ratio ratio-16x9 bg-light">
             <% if destination.banner_url.present? %>
               <img src="<%= destination.banner_url %>"
@@ -26,8 +26,8 @@
             <h5 class="card-title fw-bold m-0" style="color: #070485;"><%= destination.name %></h5>
             <div class="mt-auto pt-3 d-flex justify-content-end">
               <%= link_to "Sélectionner", destination_path(destination),
-                          class: "btn px-4 fw-bold shadow-sm text-white",
-                          style: "background-color: #d35400; border: none; border-radius: 5px;" %>
+                          class: "btn btn-warning px-4 fw-bold shadow-sm text-white border-0 rounded-2",
+                          style: "background-color: #d35400;" %>
             </div>
           </div>
         </div>

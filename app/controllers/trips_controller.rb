@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: [:show, :select_flight, :confirm, :export]
+  before_action :set_trip, only: %i[show select_flight confirm export]
 
   def index
     @trips = current_user.trips
@@ -7,13 +7,15 @@ class TripsController < ApplicationController
 
   def show
     @destination = @trip.destination
+    @bookmarks_by_category = @trip.bookmarks.map(&:place).group_by(&:category)
+    @sub_categories_by_category = build_sub_categories_by_category
   end
 
   def new
     @trip = Trip.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/MethodLength
     @trip = Trip.new(trip_params)
     @trip.user = current_user
 
@@ -35,6 +37,8 @@ class TripsController < ApplicationController
 
   def export
     @destination = @trip.destination
+    @bookmarks_by_category = @trip.bookmarks.map(&:place).group_by(&:category)
+    @sub_categories_by_category = build_sub_categories_by_category
     render layout: "export"
   end
 
@@ -60,5 +64,11 @@ class TripsController < ApplicationController
 
   def trip_params
     params.require(:trip).permit(:destination_id, :flight_id)
+  end
+
+  def build_sub_categories_by_category
+    @destination.categories.to_h do |cat|
+      [cat, cat.places.pluck(:sub_category).uniq.compact]
+    end
   end
 end

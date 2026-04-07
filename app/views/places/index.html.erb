@@ -27,7 +27,7 @@
         <% end %>
 
         <% places.each do |place| %>
-          <div class="row mb-5 g-4 align-items-stretch overflow-hidden">
+          <div class="row mb-5 g-4 align-items-stretch overflow-hidden" id="place-<%= place.id %>">
             <div class="col-12 d-md-flex <%= 'flex-row-reverse' if place.name == 'Naama Bay' %>">
 
               <div class="col-md-3">
@@ -45,16 +45,11 @@
               <div class="col-md-9 d-flex flex-column justify-content-between px-md-4">
                 <div>
                   <h4 class="fw-bold mb-3 text-dark mt-3 mt-md-0"><%= place.name %></h4>
-                  <p class="text-dark" style="line-height: 1.6;"><%= place.description&.squish %></p>
+                  <p class="text-dark lh-lg"><%= place.description&.squish %></p>
                 </div>
 
-                <div class="d-flex justify-content-end mt-3">
-                  <% bookmark = @trip.bookmarks.find_by(place: place) %>
-                  <% if bookmark %>
-                    <%= button_to "Désélectionner", trip_bookmark_path(@trip, bookmark), method: :delete, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #555; border: none; border-radius: 5px;" %>
-                  <% else %>
-                    <%= button_to "Sélectionner", trip_bookmarks_path(@trip, place_id: place.id), method: :post, class: "btn px-4 fw-bold shadow-sm text-white", style: "background-color: #d35400; border: none; border-radius: 5px;" %>
-                  <% end %>
+                <div class="d-flex justify-content-end mt-3" id="bookmark-btn-<%= place.id %>">
+                  <%= render "places/bookmark_btn", place: place, trip: @trip %>
                 </div>
               </div>
 

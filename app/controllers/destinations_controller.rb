@@ -1,14 +1,11 @@
 class DestinationsController < ApplicationController
   def index
-    @destinations = if params[:continent].present?
-      continent = Continent.find_by(name: params[:continent])
-      continent ? continent.destinations : Destination.all
-    else
-      Destination.all
-    end
+    @continent = Continent.find_by(name: params[:continent])
+    @destinations = @continent.destinations
   end
 
   def show
     @destination = Destination.find(params[:id])
+    @trip = current_user.trips.where(destination: @destination).order(:created_at).first
   end
 end
