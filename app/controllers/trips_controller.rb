@@ -21,7 +21,12 @@ class TripsController < ApplicationController
     @trip.user = current_user
 
     if @trip.save
-      redirect_to trip_categories_path(@trip)
+      case params[:next_step]
+      when "flights"     then redirect_to trip_flights_path(@trip)
+      when "transports"  then redirect_to trip_transports_path(@trip)
+      when "show"        then redirect_to trip_path(@trip)
+      else                    redirect_to trip_categories_path(@trip)
+      end
     else
       render :new, status: :unprocessable_entity
     end
