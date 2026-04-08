@@ -28,42 +28,45 @@
                   <strong><%= @trip.flight.company_return %></strong> — Retour : <%= @trip.flight.take_off_at_return %> → <%= @trip.flight.land_at_return %>
                   <span class="text-muted small">(<%= @trip.flight.stopover_return.present? ? @trip.flight.stopover_return : "direct" %>)</span>
                 </div>
-              <% else %>
-                <span class="text-muted">Aucun vol sélectionné</span>
               <% end %>
             </td>
           </tr>
 
           <% @sub_categories_by_category.reject { |cat, _| cat.name == "Les plats typiques" }.each do |category, sub_cat_names| %>
-            <tr>
-              <td colspan="2" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
-            </tr>
             <% effective_sub_cats = category.name == "Les déserts et le Nil" ? ["Les déserts : lieux à découvrir", "Le Nil : Croisière sur le Nil"] : sub_cat_names %>
+
             <% if effective_sub_cats.empty? %>
-              <tr class="border-bottom border-dark">
-                <td class="fw-bold px-4 border-end border-dark">Activités</td>
-                <td class="px-4">
-                  <% (@bookmarks_by_category[category] || []).each do |place| %>
-                    <div><strong><%= place.name %></strong></div>
-                  <% end %>
-                  <% if (@bookmarks_by_category[category] || []).empty? %>
-                    <span class="text-muted">Aucune activité sélectionnée</span>
-                  <% end %>
-                </td>
-              </tr>
-            <% else %>
-              <% effective_sub_cats.each do |sub_cat_name| %>
+              <% places = @bookmarks_by_category[category] || [] %>
+              <% if places.any? %>
+                <tr>
+                  <td colspan="2" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
+                </tr>
                 <tr class="border-bottom border-dark">
-                  <td class="px-4 border-end border-dark"><strong><%= sub_cat_name %></strong></td>
+                  <td class="fw-bold px-4 border-end border-dark">Activités</td>
                   <td class="px-4">
-                    <% places = (@bookmarks_by_category[category] || []).select { |p| p.sub_category == sub_cat_name } %>
-                    <% if places.any? %>
-                      <% places.each do |place| %><div><strong><%= place.name %></strong></div><% end %>
-                    <% else %>
-                      <span class="text-muted">Aucune activité sélectionnée</span>
+                    <% places.each do |place| %>
+                      <div><strong><%= place.name %></strong></div>
                     <% end %>
                   </td>
                 </tr>
+              <% end %>
+            <% else %>
+              <% rows = effective_sub_cats.select { |sub| (@bookmarks_by_category[category] || []).select { |p| p.sub_category == sub }.any? } %>
+              <% if rows.any? %>
+                <tr>
+                  <td colspan="2" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
+                </tr>
+                <% rows.each do |sub_cat_name| %>
+                  <% places = (@bookmarks_by_category[category] || []).select { |p| p.sub_category == sub_cat_name } %>
+                  <tr class="border-bottom border-dark">
+                    <td class="px-4 border-end border-dark"><strong><%= sub_cat_name %></strong></td>
+                    <td class="px-4">
+                      <% places.each do |place| %>
+                        <div><strong><%= place.name %></strong></div>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
@@ -72,29 +75,25 @@
             <td colspan="2" class="text-center fw-bold py-2 bg-light border-bottom border-dark">Transports</td>
           </tr>
 
-          <tr class="border-bottom border-dark">
-            <td class="fw-bold px-4 border-end border-dark">Transports dans le Pays</td>
-            <td class="px-4">
-              <% pays = @trip.transports.where(transport_type: "pays") %>
-              <% if pays.any? %>
+          <% pays = @trip.transports.where(transport_type: "pays") %>
+          <% if pays.any? %>
+            <tr class="border-bottom border-dark">
+              <td class="fw-bold px-4 border-end border-dark">Transports dans le Pays</td>
+              <td class="px-4">
                 <% pays.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
-              <% else %>
-                <span class="text-muted">Aucun transport sélectionné</span>
-              <% end %>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          <% end %>
 
-          <tr class="border-bottom border-dark">
-            <td class="fw-bold px-4 border-end border-dark">Transports dans les Villes</td>
-            <td class="px-4">
-              <% villes = @trip.transports.where(transport_type: "villes") %>
-              <% if villes.any? %>
+          <% villes = @trip.transports.where(transport_type: "villes") %>
+          <% if villes.any? %>
+            <tr class="border-bottom border-dark">
+              <td class="fw-bold px-4 border-end border-dark">Transports dans les Villes</td>
+              <td class="px-4">
                 <% villes.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
-              <% else %>
-                <span class="text-muted">Aucun transport sélectionné</span>
-              <% end %>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          <% end %>
 
         </tbody>
       </table>

@@ -1,0 +1,45 @@
+<% current_step ||= 0 %>
+
+<% steps = [
+  { label: "Les vols",            path: -> { trip_flights_path(@trip) } },
+  { label: "Les catégories",      path: -> { trip_categories_path(@trip) } },
+  { label: "La Capitale",         path: -> { trip_category_places_path(@trip, Category.find_by(name: "La Capitale et les marchés traditionnels")) } },
+  { label: "Les autres villes",   path: -> { trip_category_places_path(@trip, Category.find_by(name: "Les autres Villes")) } },
+  { label: "Stations balnéaires", path: -> { trip_category_places_path(@trip, Category.find_by(name: "Les Stations Balnéaires")) } },
+  { label: "Hors circuits",       path: -> { trip_category_places_path(@trip, Category.find_by(name: "Les Hors circuits")) } },
+  { label: "Déserts & Nil",       path: -> { trip_category_places_path(@trip, Category.find_by(name: "Les déserts et le Nil")) } },
+  { label: "Plats typiques",      path: -> { trip_category_places_path(@trip, Category.find_by(name: "Les plats typiques")) } },
+  { label: "Transports",          path: -> { trip_transports_path(@trip) } },
+  { label: "Récapitulatif",       path: -> { trip_path(@trip) } }
+] %>
+
+<div class="d-flex align-items-center px-4 py-3 bg-light border-bottom" style="overflow-x: auto;">
+  <% steps.each_with_index do |step, i| %>
+    <% done   = i < current_step %>
+    <% active = i == current_step %>
+
+    <% resolved_path = (done || active) ? (step[:path].call rescue "#") : "#" %>
+
+    <div class="d-flex flex-column align-items-center" style="min-width: 80px;">
+      <%= link_to resolved_path, class: "d-flex flex-column align-items-center text-decoration-none gap-1" do %>
+        <% if done %>
+          <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+               style="width:30px; height:30px; background-color:#d35400; color:#fff; font-size:14px;">✓</div>
+          <span class="text-secondary text-decoration-line-through" style="font: size 14px; text-align:center; line-height:1.2;"><%= step[:label] %></span>
+        <% elsif active %>
+          <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 fw-medium"
+               style="width:30px; height:30px; background-color:#070485; color:#fff; font-size:12px;"><%= i + 1 %></div>
+          <span class="fw-medium" style="font-size:14px; text-align:center; line-height:1.2; color:#070485;"><%= step[:label] %></span>
+        <% else %>
+          <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 bg-white border text-secondary fw-medium"
+               style="width:30px; height:30px; font-size:12px;"><%= i + 1 %></div>
+          <span class="text-secondary" style="font-size:14px; text-align:center; line-height:1.2;"><%= step[:label] %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if i < steps.length - 1 %>
+      <div class="flex-grow-1 mx-1 mb-4" style="height:2px; background-color:<%= done ? '#d35400' : '#dee2e6' %>;"></div>
+    <% end %>
+  <% end %>
+</div>

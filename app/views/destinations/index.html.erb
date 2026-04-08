@@ -13,7 +13,7 @@
         <div class="card border-0 shadow-sm bg-white overflow-hidden h-100 rounded-3">
           <div class="ratio ratio-16x9 bg-light">
             <% if destination.banner_url.present? %>
-              <img src="<%= destination.banner_url %>"
+              <img src="/<%= destination.banner_url %>"
                    class="card-img-top object-fit-cover"
                    alt="<%= destination.name %>">
             <% else %>
@@ -26,7 +26,7 @@
             <h5 class="card-title fw-bold m-0" style="color: #070485;"><%= destination.name %></h5>
             <div class="mt-auto pt-3 d-flex justify-content-end">
               <%= link_to "Sélectionner", destination_path(destination),
-                          class: "btn btn-warning px-4 fw-bold shadow-sm text-white border-0 rounded-2",
+                          class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",
                           style: "background-color: #d35400;" %>
             </div>
           </div>

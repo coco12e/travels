@@ -1,55 +1,59 @@
-<div class="container-fluid px-5 py-5">
-  <div class="mb-5">
-    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Les vols pour se rendre en Égypte</h1>
-    <p class="text-dark w-100 lh-lg fs-5">
-      L'application propose plusieurs options de vols pour se rendre en Égypte,
-      incluant des trajets directs et avec escales via différentes compagnies aériennes.
-    </p>
+<%= render "shared/stepper", current_step: 0 %>
+
+  <div class="container-fluid px-5 py-5">
+    <div class="mb-5">
+      <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Les vols pour se rendre en Égypte</h1>
+      <p class="text-dark w-100 lh-lg fs-5">
+        L'application propose plusieurs options de vols pour se rendre en Égypte,
+        incluant des trajets directs et avec escales via différentes compagnies aériennes.
+      </p>
+    </div>
+
+    <% if @direct.any? || @direct_mix.any? %>
+      <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs</h3>
+      <% @direct.each do |flight| %>
+        <%= render "trips/flight_card", flight: flight, trip: @trip %>
+      <% end %>
+      <% @direct_mix.each do |flight| %>
+        <%= render "trips/flight_card", flight: flight, trip: @trip %>
+      <% end %>
+    <% end %>
+
+    <% if @escale.any? %>
+      <h3 class="text-secondary mb-4 mt-5 fs-4">Vols avec escales</h3>
+      <% @escale.each do |flight| %>
+        <%= render "trips/flight_card", flight: flight, trip: @trip %>
+      <% end %>
+    <% end %>
+
+    <% if @escale_aller.any? %>
+      <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs (Retour) et une escale (Aller)</h3>
+      <% @escale_aller.each do |flight| %>
+        <%= render "trips/flight_card", flight: flight, trip: @trip %>
+      <% end %>
+    <% end %>
+
+    <% if @escale_retour.any? %>
+      <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs (Aller) et une escale (Retour)</h3>
+      <% @escale_retour.each do |flight| %>
+        <%= render "trips/flight_card", flight: flight, trip: @trip %>
+      <% end %>
+    <% end %>
+
+    <% if [@direct, @direct_mix, @escale, @escale_aller, @escale_retour].all?(&:empty?) %>
+      <div class="alert alert-info mt-5">
+        Aucun vol ne correspond à votre recherche pour le moment.
+      </div>
+    <% end %>
   </div>
 
-  <% if @direct.any? || @direct_mix.any? %>
-    <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs</h3>
-    <% @direct.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight, trip: @trip %>
-    <% end %>
-    <% @direct_mix.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight, trip: @trip %>
-    <% end %>
-  <% end %>
+  <footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+    <%= link_to "← Egypte Explorer", destination_path(@trip.destination),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+    <%= link_to "Les catégories →", trip_categories_path(@trip),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+  </footer>
 
-  <% if @escale.any? %>
-    <h3 class="text-secondary mb-4 mt-5 fs-4">Vols avec escales</h3>
-    <% @escale.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight, trip: @trip %>
-    <% end %>
-  <% end %>
-
-  <% if @escale_aller.any? %>
-    <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs (Retour) et une escale (Aller)</h3>
-    <% @escale_aller.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight, trip: @trip %>
-    <% end %>
-  <% end %>
-
-  <% if @escale_retour.any? %>
-    <h3 class="text-secondary mb-4 mt-5 fs-4">Vols Directs (Aller) et une escale (Retour)</h3>
-    <% @escale_retour.each do |flight| %>
-      <%= render "trips/flight_card", flight: flight, trip: @trip %>
-    <% end %>
-  <% end %>
-
-  <% if [@direct, @direct_mix, @escale, @escale_aller, @escale_retour].all?(&:empty?) %>
-    <div class="alert alert-info mt-5">
-      Aucun vol ne correspond à votre recherche pour le moment.
-    </div>
-  <% end %>
-</div>
-
-<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
-  <%= link_to "← Egypte Explorer", destination_path(@trip.destination),
-        class: "btn fw-semibold px-4",
-        style: "color: white; border: 0; background-color: #d35400;" %>
-  <%= link_to "Les catégories →", trip_categories_path(@trip),
-        class: "btn fw-semibold px-4",
-        style: "color: white; border: 0; background-color: #d35400;" %>
-</footer>
+</div><%# fermeture du wrapper margin-left du stepper %>
