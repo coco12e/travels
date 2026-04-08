@@ -44,3 +44,12 @@
     </div>
   <% end %>
 </div>
+
+<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+  <%= link_to "← Egypte Explorer", destination_path(@trip.destination),
+        class: "btn fw-semibold px-4",
+        style: "color: white; border: 0; background-color: #d35400;" %>
+  <%= link_to "Les catégories →", trip_categories_path(@trip),
+        class: "btn fw-semibold px-4",
+        style: "color: white; border: 0; background-color: #d35400;" %>
+</footer>

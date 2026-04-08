@@ -3,22 +3,27 @@ class Flight < ApplicationRecord
   has_many :trips
 
   def self.direct(destination)
-    where(destination: destination, company: "Air France", company_return: "Air France")
+    where(destination: destination)
+      .select { |f| f.stopover.blank? && f.stopover_return.blank? && f.company == f.company_return }
   end
 
   def self.direct_mix(destination)
-    where(destination: destination, company: "Egyptair", company_return: "Air France")
+    where(destination: destination)
+      .select { |f| f.stopover.blank? && f.stopover_return.blank? && f.company != f.company_return }
   end
 
   def self.escale(destination)
-    where(destination: destination, company: "Lufthansa")
+    where(destination: destination)
+      .select { |f| f.stopover.present? && f.stopover_return.present? }
   end
 
   def self.escale_aller(destination)
-    where(destination: destination, company: "Swissair")
+    where(destination: destination)
+      .select { |f| f.stopover.present? && f.stopover_return.blank? }
   end
 
   def self.escale_retour(destination)
-    where(destination: destination, company_return: "Austrian")
+    where(destination: destination)
+      .select { |f| f.stopover.blank? && f.stopover_return.present? }
   end
 end

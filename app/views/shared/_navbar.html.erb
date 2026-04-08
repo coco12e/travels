@@ -21,7 +21,7 @@
           <%= link_to "Destinations", destinations_path(continent: "Moyen-Orient"), class: "nav-link fw-semibold" %>
         </li>
 
-        <% if @egypte %>
+        <% if @egypte && !@hide_egypte_nav %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               L'Égypte Explorer
@@ -32,7 +32,9 @@
               <% if user_signed_in? %>
                 <% if @navbar_trip %>
                   <li><%= link_to "Les Vols", trip_flights_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><hr class="dropdown-divider"></li>
                   <li><%= link_to "Explorer les catégories", trip_categories_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><hr class="dropdown-divider"></li>
                   <li><%= link_to "Transports : Pays et villes", trip_transports_path(@navbar_trip), class: "dropdown-item" %></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><%= link_to "Récapitulatif", trip_path(@navbar_trip), class: "dropdown-item" %></li>
@@ -42,6 +44,22 @@
               <% end %>
             </ul>
           </li>
+
+          <% if @show_categories_nav && user_signed_in? && @navbar_trip %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Les catégories
+              </a>
+              <ul class="dropdown-menu shadow border-0 dropdown-menu-end" style="min-width: 320px;">
+                <li><span class="dropdown-item fw-bold" style="color: #070485;">Les catégories</span></li>
+                <li><hr class="dropdown-divider"></li>
+                <% @egypte.categories.order(:id).each do |cat| %>
+                  <li><%= link_to cat.name, trip_category_places_path(@navbar_trip, cat), class: "dropdown-item" %></li>
+                  <li><hr class="dropdown-divider"></li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
         <% end %>
 
         <% if user_signed_in? %>

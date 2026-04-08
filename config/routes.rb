@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :trips, only: [:index, :show, :new, :create] do
     member do
       patch :select_flight
+      patch :unselect_flight
       patch :confirm
       get :export
     end

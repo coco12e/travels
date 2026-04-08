@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  before_action :set_trip, only: %i[show select_flight confirm export]
+  before_action :set_trip, only: %i[show select_flight unselect_flight confirm export]
 
   def index
     @trips = current_user.trips
@@ -53,7 +53,12 @@ class TripsController < ApplicationController
 
   def select_flight
     @trip.update(flight_id: params[:flight_id])
-    redirect_to trip_path(@trip)
+    redirect_to trip_flights_path(@trip)
+  end
+
+  def unselect_flight
+    @trip.update(flight_id: nil)
+    redirect_to trip_flights_path(@trip)
   end
 
   private

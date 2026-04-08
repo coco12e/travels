@@ -1,11 +1,10 @@
+Trip.destroy_all
 Flight.destroy_all
 Place.destroy_all
 Category.destroy_all
-Trip.destroy_all
 Destination.destroy_all
 Continent.destroy_all
 Region.destroy_all
-User.destroy_all
 
 moyen_orient_reg = Region.create!(name: "Moyen-Orient")
 
@@ -40,20 +39,22 @@ end
 
 egypte = created_destinations["L'Égypte"]
 
+egypte = created_destinations["L'Égypte"]
+
 Flight.create!(
-  company: "Air France", photo: "air-france-logo.jpg",
+  company: "Air France", photo: "air france logo.jpg",
   departure: "Paris (CDG)", arrival: "Le Caire (CAI)",
   take_off_at: "20h10", land_at: "00h30", duration: "4h20", stopover: "",
-  company_return: "Air France", photo_return: "air-france-logo.jpg",
+  company_return: "Air France", photo_return: "air france logo.jpg",
   take_off_at_return: "03h25", land_at_return: "07h00", duration_return: "4h25", stopover_return: "",
   destination: egypte
 )
 
 Flight.create!(
-  company: "Egyptair", photo: "egyptair-logo.jpg",
+  company: "Egyptair", photo: "egyptair logo.jpg",
   departure: "Paris (CDG)", arrival: "Le Caire (CAI)",
   take_off_at: "16h00", land_at: "21h20", duration: "4h20", stopover: "",
-  company_return: "Air France", photo_return: "air-france-logo.jpg",
+  company_return: "Air France", photo_return: "air france logo.jpg",
   take_off_at_return: "03h25", land_at_return: "07h00", duration_return: "4h25", stopover_return: "",
   destination: egypte
 )
@@ -71,17 +72,26 @@ Flight.create!(
   company: "Swissair", photo: "swissair.png",
   departure: "Paris (CDG)", arrival: "Le Caire (CAI)",
   take_off_at: "07h45", land_at: "15h20", duration: "6h35", stopover: "1 correspondance (Zurich)",
-  company_return: "Egyptair", photo_return: "egyptair-logo.jpg",
+  company_return: "Egyptair", photo_return: "egyptair logo.jpg",
   take_off_at_return: "10h00", land_at_return: "14h20", duration_return: "4h20", stopover_return: "",
   destination: egypte
 )
 
 Flight.create!(
-  company: "Egyptair", photo: "egyptair-logo.jpg",
+  company: "Egyptair", photo: "egyptair logo.jpg",
   departure: "Paris (CDG)", arrival: "Le Caire (CAI)",
   take_off_at: "16h00", land_at: "21h20", duration: "4h20", stopover: "",
   company_return: "Austrian", photo_return: "austrian.png",
   take_off_at_return: "10h50", land_at_return: "18h50", duration_return: "9h00", stopover_return: "1 correspondance (Vienne)",
+  destination: egypte
+)
+
+Flight.create!(
+  company: "Royal Jordanienne", photo: "royal-jordanienne.png",
+  departure: "Paris (CDG)", arrival: "Le Caire (CAI)",
+  take_off_at: "16h00", land_at: "00h30", duration: "8h30", stopover: "1 correspondance (Amman)",
+  company_return: "Royal Jordanienne", photo_return: "rj.png",
+  take_off_at_return: "07h30", land_at_return: "14h30", duration_return: "7h00", stopover_return: "1 correspondance (Amman)",
   destination: egypte
 )
 

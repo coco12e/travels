@@ -1,4 +1,6 @@
 class PlacesController < ApplicationController
+  before_action { @show_categories_nav = true }
+
   def index
     @trip = Trip.find(params[:trip_id])
     @category = Category.find(params[:category_id])

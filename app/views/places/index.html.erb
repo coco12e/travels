@@ -60,3 +60,30 @@
     </div>
   </div>
 </div>
+
+<% categories = Category.order(:id).to_a %>
+<% current_index = categories.index(@category) %>
+<% prev_category = categories[current_index - 1] if current_index > 0 %>
+<% next_category = categories[current_index + 1] %>
+
+<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+  <% if prev_category %>
+    <%= link_to "← #{prev_category.name}", trip_category_places_path(@trip, prev_category),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+  <% else %>
+    <%= link_to "← Les catégories", trip_categories_path(@trip),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+  <% end %>
+
+  <% if next_category %>
+    <%= link_to "#{next_category.name} →", trip_category_places_path(@trip, next_category),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+  <% else %>
+    <%= link_to "Les transports →", trip_transports_path(@trip),
+          class: "btn fw-semibold px-4",
+          style: "color: white; border: 0; background-color: #d35400;" %>
+  <% end %>
+</footer>

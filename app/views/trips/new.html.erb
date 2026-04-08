@@ -1,0 +1,5 @@
+<%= form_with model: @trip, url: trips_path do |f| %>
+  <%= f.hidden_field :destination_id %>
+  <%= f.hidden_field :next_step, value: params[:next_step] %>
+  <%= f.submit %>
+<% end %>
