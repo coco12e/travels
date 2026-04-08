@@ -1,8 +1,8 @@
 class DestinationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :hide_egypte, only: [:index]
 
   def index
-    @hide_egypte_nav = true
     @continent = Continent.find_by(name: params[:continent])
     @destinations = @continent.destinations
   end
@@ -11,5 +11,11 @@ class DestinationsController < ApplicationController
     @show_categories_nav = true
     @destination = Destination.find(params[:id])
     @trip = current_user.trips.where(destination: @destination).order(:created_at).last
+  end
+
+  private
+
+  def hide_egypte
+    @hide_egypte_nav = true
   end
 end

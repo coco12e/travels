@@ -1,0 +1,19 @@
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background-color: darken($primary, 10%);
+    border-color: darken($primary, 10%);
+  }
+}
+
+.btn-success {
+  background-color: $green;
+  border-color: $green;
+
+  &:hover {
+    background-color: darken($green, 10%);
+    border-color: darken($green, 10%);
+  }
+}

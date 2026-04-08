@@ -1,0 +1,102 @@
+<div class="container-fluid px-5 py-5">
+
+  <%# Transports dans le Pays %>
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Transports dans le Pays</h1>
+    <p class="text-dark w-100 lh-lg fs-5">
+      Le réseau de transport égyptien est conçu pour offrir une autonomie totale aux voyageurs qui souhaitent construire leur
+      propre aventure. Il se structure autour de quatre axes majeurs, chacun offrant une expérience de voyage unique.
+    </p>
+  </div>
+
+  <table class="table table-bordered mb-5">
+    <thead>
+      <tr>
+        <th style="width: 15%;"></th>
+        <th class="text-center fw-bold fs-5 py-3">Avantages</th>
+        <th class="text-center fw-bold fs-5 py-3">Inconvénients</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @transports.where(transport_type: "pays").each do |transport| %>
+        <tr>
+          <td class="fw-bold align-middle text-center py-3">
+            <%= transport.name %>
+            <div class="mt-2">
+              <% if @selected_ids.include?(transport.id) %>
+                <%= button_to "Désélectionner", trip_transport_path(@trip, transport, transport_id: transport.id),
+                      method: :delete,
+                      data: { turbo: false },
+                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                      style: "background-color: #27ae60; font-size: 0.85rem;" %>
+              <% else %>
+                <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+                      method: :post,
+                      data: { turbo: false },
+                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                      style: "background-color: #d35400; font-size: 0.85rem;" %>
+              <% end %>
+            </div>
+          </td>
+          <td class="py-3"></td>
+          <td class="py-3"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%# Transports dans les Villes %>
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Transports dans les Villes</h1>
+    <p class="text-dark w-100 lh-lg fs-5">
+      Le paysage urbain offre une grande diversité de moyens de transport, allant des systèmes de masse structurés aux
+      services de transport individuel plus flexibles.
+    </p>
+  </div>
+
+  <table class="table table-bordered mb-5">
+    <thead>
+      <tr>
+        <th style="width: 15%;"></th>
+        <th class="text-center fw-bold fs-5 py-3">Avantages</th>
+        <th class="text-center fw-bold fs-5 py-3">Inconvénients</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @transports.where(transport_type: "villes").each do |transport| %>
+        <tr>
+          <td class="fw-bold align-middle text-center py-3">
+            <%= transport.name %>
+            <div class="mt-2">
+              <% if @selected_ids.include?(transport.id) %>
+                <%= button_to "Désélectionner", trip_transport_path(@trip, transport, transport_id: transport.id),
+                      method: :delete,
+                      data: { turbo: false },
+                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                      style: "background-color: #27ae60; font-size: 0.85rem;" %>
+              <% else %>
+                <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+                      method: :post,
+                      data: { turbo: false },
+                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                      style: "background-color: #d35400; font-size: 0.85rem;" %>
+              <% end %>
+            </div>
+          </td>
+          <td class="py-3"></td>
+          <td class="py-3"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+
+<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+  <%= link_to "← Les plats typiques", trip_category_places_path(@trip, @destination.categories.order(:id).last),
+        class: "btn fw-semibold px-4",
+        style: "color: white; border: 0; background-color: #d35400;" %>
+  <%= link_to "Le récapitulatif →", trip_path(@trip),
+        class: "btn fw-semibold px-4",
+        style: "color: white; border: 0; background-color: #d35400;" %>
+</footer>

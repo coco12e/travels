@@ -82,7 +82,7 @@
             class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",
             style: "background-color: #27ae60;" %>
     <% else %>
-      <%= button_to "Sélectionner", select_flight_trip_path(trip, flight_id: flight.id),
+      <%= button_to "Sélectionner", select_flight_trip_path(trip, flight_id: flight.id, return_to: params[:return_to]),
             method: :patch,
             data: { turbo: false },
             class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",

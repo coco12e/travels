@@ -1,5 +1,6 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: %i[show select_flight unselect_flight confirm export]
+  before_action :set_show_categories_nav, only: %i[show export]
 
   def index
     @trips = current_user.trips
@@ -15,21 +16,12 @@ class TripsController < ApplicationController
     @trip = Trip.new
   end
 
-  def create # rubocop:disable Metrics/MethodLength
+  def create
     @trip = Trip.new(trip_params)
     @trip.user = current_user
 
     if @trip.save
-      case params[:next_step]
-      when "flights"
-        redirect_to trip_flights_path(@trip)
-      when "transports"
-        redirect_to trip_transports_path(@trip)
-      when "show"
-        redirect_to trip_path(@trip)
-      else
-        redirect_to trip_categories_path(@trip)
-      end
+      redirect_to trip_categories_path(@trip)
     else
       render :new, status: :unprocessable_entity
     end
@@ -62,6 +54,10 @@ class TripsController < ApplicationController
   end
 
   private
+
+  def set_show_categories_nav
+    @show_categories_nav = true
+  end
 
   def set_trip
     @trip = current_user.trips.find(params[:id])

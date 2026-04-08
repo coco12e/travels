@@ -10,14 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_164705) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_113125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.string "banner_url"
+    t.datetime "created_at", null: false
+    t.bigint "destination_id", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.index ["destination_id"], name: "index_activities_on_destination_id"
+  end
 
   create_table "bookmarks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "favori_id"
-    t.bigint "place_id", null: false
+    t.bigint "place_id"
     t.bigint "trip_id", null: false
     t.datetime "updated_at", null: false
     t.index ["place_id"], name: "index_bookmarks_on_place_id"
@@ -40,10 +49,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_164705) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.bigint "continent_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.index ["continent_id"], name: "index_countries_on_continent_id"
+  end
+
   create_table "destinations", force: :cascade do |t|
     t.string "banner_url"
     t.bigint "continent_id", null: false
     t.datetime "created_at", null: false
+    t.string "image_url"
     t.string "name"
     t.bigint "region_id", null: false
     t.datetime "updated_at", null: false
@@ -97,13 +115,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_164705) do
     t.bigint "destination_id", null: false
     t.text "disadvantages"
     t.string "name"
+    t.string "transport_type"
     t.datetime "updated_at", null: false
     t.index ["destination_id"], name: "index_transports_on_destination_id"
+  end
+
+  create_table "trip_transports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "transport_id", null: false
+    t.bigint "trip_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transport_id"], name: "index_trip_transports_on_transport_id"
+    t.index ["trip_id"], name: "index_trip_transports_on_trip_id"
   end
 
   create_table "trips", force: :cascade do |t|
     t.boolean "confirmed"
     t.datetime "created_at", null: false
+    t.text "description"
     t.bigint "destination_id", null: false
     t.integer "flight_id"
     t.string "name"
@@ -127,15 +156,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_164705) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "bookmarks", "places"
-  add_foreign_key "bookmarks", "trips"
+  add_foreign_key "activities", "destinations"
   add_foreign_key "categories", "destinations"
+  add_foreign_key "countries", "continents"
   add_foreign_key "destinations", "continents"
   add_foreign_key "destinations", "regions"
   add_foreign_key "flights", "destinations"
   add_foreign_key "places", "categories"
   add_foreign_key "places", "destinations"
   add_foreign_key "transports", "destinations"
+  add_foreign_key "trip_transports", "transports"
+  add_foreign_key "trip_transports", "trips"
   add_foreign_key "trips", "destinations"
   add_foreign_key "trips", "transports"
   add_foreign_key "trips", "users"

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       get :export
     end
     resources :flights, only: [:index]
-    resources :transports, only: [:index]
+    resources :transports, only: [:index, :create, :destroy]
     resources :categories, only: [:index] do
       resources :places, only: [:index]
     end

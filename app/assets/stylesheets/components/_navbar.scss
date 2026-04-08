@@ -1,12 +1,37 @@
 .navbar-lewagon {
-  justify-content: space-between;
-  background: white;
+  background-color: white;
+
+  .navbar-collapse {
+    flex-grow: 0;
+  }
+
+  .navbar-brand img {
+    width: 40px;
+  }
 }
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
+.dropdown-item {
+  &:hover,
+  &:focus {
+    background-color: #f8f9fa;
+    color: #070485;
+  }
+
+  &.active-link {
+    color: #d35400;
+    font-weight: bold;
+    background-color: #f8f9fa;
+  }
 }
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
+.nav-link {
+  &.show,
+  &.active {
+    color: #212529 !important;
+    font-weight: normal !important;
+  }
+}
+
+h2[id] {
+  scroll-margin-top: 80px;
 }

@@ -34,11 +34,12 @@
             </td>
           </tr>
 
-          <% @sub_categories_by_category.each do |category, sub_cat_names| %>
+          <% @sub_categories_by_category.reject { |cat, _| cat.name == "Les plats typiques" }.each do |category, sub_cat_names| %>
             <tr>
               <td colspan="2" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
             </tr>
-            <% if sub_cat_names.empty? %>
+            <% effective_sub_cats = category.name == "Les déserts et le Nil" ? ["Les déserts : lieux à découvrir", "Le Nil : Croisière sur le Nil"] : sub_cat_names %>
+            <% if effective_sub_cats.empty? %>
               <tr class="border-bottom border-dark">
                 <td class="fw-bold px-4 border-end border-dark">Activités</td>
                 <td class="px-4">
@@ -51,7 +52,7 @@
                 </td>
               </tr>
             <% else %>
-              <% sub_cat_names.each do |sub_cat_name| %>
+              <% effective_sub_cats.each do |sub_cat_name| %>
                 <tr class="border-bottom border-dark">
                   <td class="px-4 border-end border-dark"><strong><%= sub_cat_name %></strong></td>
                   <td class="px-4">
@@ -74,8 +75,9 @@
           <tr class="border-bottom border-dark">
             <td class="fw-bold px-4 border-end border-dark">Transports dans le Pays</td>
             <td class="px-4">
-              <% if @trip.transport %>
-                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% pays = @trip.transports.where(transport_type: "pays") %>
+              <% if pays.any? %>
+                <% pays.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
               <% else %>
                 <span class="text-muted">Aucun transport sélectionné</span>
               <% end %>
@@ -85,8 +87,9 @@
           <tr class="border-bottom border-dark">
             <td class="fw-bold px-4 border-end border-dark">Transports dans les Villes</td>
             <td class="px-4">
-              <% if @trip.transport %>
-                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% villes = @trip.transports.where(transport_type: "villes") %>
+              <% if villes.any? %>
+                <% villes.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
               <% else %>
                 <span class="text-muted">Aucun transport sélectionné</span>
               <% end %>

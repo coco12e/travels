@@ -33,15 +33,16 @@
               <% end %>
             </td>
             <td class="text-center" style="width: 20%;">
-              <%= link_to "Modifier", trip_flights_path(@trip), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
+              <%= link_to "Modifier", trip_flights_path(@trip, return_to: "show"), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
             </td>
           </tr>
 
-          <% @sub_categories_by_category.each do |category, sub_cat_names| %>
+          <% @sub_categories_by_category.reject { |cat, _| cat.name == "Les plats typiques" }.each do |category, sub_cat_names| %>
             <tr>
               <td colspan="3" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
             </tr>
-            <% if sub_cat_names.empty? %>
+            <% effective_sub_cats = category.name == "Les déserts et le Nil" ? ["Les déserts : lieux à découvrir", "Le Nil : Croisière sur le Nil"] : sub_cat_names %>
+            <% if effective_sub_cats.empty? %>
               <tr class="border-bottom border-dark">
                 <td class="fw-bold px-4 border-end border-dark">Activités</td>
                 <td class="px-4 border-end border-dark">
@@ -53,11 +54,11 @@
                   <% end %>
                 </td>
                 <td class="text-center">
-                  <%= link_to "Modifier", trip_category_places_path(@trip, category), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
+                  <%= link_to "Modifier", trip_category_places_path(@trip, category, return_to: "show"), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
                 </td>
               </tr>
             <% else %>
-              <% sub_cat_names.each do |sub_cat_name| %>
+              <% effective_sub_cats.each do |sub_cat_name| %>
                 <tr class="border-bottom border-dark">
                   <td class="px-4 border-end border-dark"><strong><%= sub_cat_name %></strong></td>
                   <td class="px-4 border-end border-dark">
@@ -69,7 +70,7 @@
                     <% end %>
                   </td>
                   <td class="text-center">
-                    <%= link_to "Modifier", trip_category_places_path(@trip, category), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
+                    <%= link_to "Modifier", trip_category_places_path(@trip, category, return_to: "show"), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
                   </td>
                 </tr>
               <% end %>
@@ -83,28 +84,30 @@
           <tr class="border-bottom border-dark">
             <td class="fw-bold px-4 border-end border-dark">Transports dans le Pays</td>
             <td class="px-4 border-end border-dark">
-              <% if @trip.transport %>
-                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% pays = @trip.transports.where(transport_type: "pays") %>
+              <% if pays.any? %>
+                <% pays.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
               <% else %>
                 <span class="text-muted">Aucun transport sélectionné</span>
               <% end %>
             </td>
             <td class="text-center">
-              <%= link_to "Modifier", trip_transports_path(@trip), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
+              <%= link_to "Modifier", trip_transports_path(@trip, return_to: "show"), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
             </td>
           </tr>
 
           <tr class="border-bottom border-dark">
             <td class="fw-bold px-4 border-end border-dark">Transports dans les Villes</td>
             <td class="px-4 border-end border-dark">
-              <% if @trip.transport %>
-                <div><strong><%= @trip.transport.transport_type %></strong></div>
+              <% villes = @trip.transports.where(transport_type: "villes") %>
+              <% if villes.any? %>
+                <% villes.each do |t| %><div><strong><%= t.name %></strong></div><% end %>
               <% else %>
                 <span class="text-muted">Aucun transport sélectionné</span>
               <% end %>
             </td>
             <td class="text-center">
-              <%= link_to "Modifier", trip_transports_path(@trip), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
+              <%= link_to "Modifier", trip_transports_path(@trip, return_to: "show"), class: "btn px-4 py-2 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400; width: 140px;" unless @trip.confirmed? %>
             </td>
           </tr>
 
@@ -125,6 +128,10 @@
   </div>
 
   <div class="text-end mt-4">
-    <%= link_to "Exporter en PDF", export_trip_path(@trip), target: "_blank", class: "btn btn-outline-dark fw-bold" %>
+    <% if @trip.confirmed? %>
+      <%= link_to "Exporter en PDF", export_trip_path(@trip), target: "_blank", class: "btn btn-outline-dark fw-bold" %>
+    <% else %>
+      <button class="btn btn-outline-secondary fw-bold" disabled title="Confirmez votre itinéraire avant d'exporter">Exporter en PDF</button>
+    <% end %>
   </div>
 </div>

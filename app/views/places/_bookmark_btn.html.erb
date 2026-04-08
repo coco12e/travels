@@ -2,11 +2,13 @@
 <% if bookmark %>
   <%= button_to "Désélectionner", trip_bookmark_path(trip, bookmark),
         method: :delete,
+        params: { return_to: params[:return_to] },
         class: "btn px-4 fw-bold shadow-sm text-white",
-        style: "background-color: #555; border: none; border-radius: 5px;" %>
+        style: "background-color: #27ae60; border: none; border-radius: 5px;" %>
 <% else %>
-  <%= button_to "Sélectionner", trip_bookmarks_path(trip, place_id: place.id),
+  <%= button_to "Sélectionner", trip_bookmarks_path(trip),
         method: :post,
+        params: { place_id: place.id, return_to: params[:return_to] },
         class: "btn px-4 fw-bold shadow-sm text-white",
         style: "background-color: #d35400; border: none; border-radius: 5px;" %>
 <% end %>

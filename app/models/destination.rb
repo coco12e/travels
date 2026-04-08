@@ -4,4 +4,5 @@ class Destination < ApplicationRecord
   has_many :categories
   has_many :places
   has_many :flights
+  has_many :transports
 end

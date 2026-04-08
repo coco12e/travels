@@ -21,7 +21,7 @@
     <div class="col-12">
       <% @places.group_by(&:sub_category).each do |sub_cat_name, places| %>
         <% if sub_cat_name.present? %>
-          <h2 class="fw-bold mb-4 mt-5" style="color: #070485;">
+          <h2 class="fw-bold mb-4 mt-5" id="<%= sub_cat_name.parameterize %>" style="color: #070485;">
             <%= places.size == 1 ? sub_cat_name.gsub("Les activités", "L'activité") : sub_cat_name %>
           </h2>
         <% end %>

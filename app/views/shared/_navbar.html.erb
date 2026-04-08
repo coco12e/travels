@@ -26,18 +26,18 @@
             <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               L'Égypte Explorer
             </a>
-            <ul class="dropdown-menu shadow border-0">
-              <li><%= link_to "L'Égypte Explorer", destination_path(@egypte), class: "dropdown-item fw-bold", style: "color: #070485;" %></li>
+            <ul class="dropdown-menu shadow border-0 bg-white">
+              <li><%= link_to "L'Égypte Explorer", destination_path(@egypte), class: "dropdown-item fw-bold" %></li>
               <li><hr class="dropdown-divider"></li>
               <% if user_signed_in? %>
                 <% if @navbar_trip %>
-                  <li><%= link_to "Les Vols", trip_flights_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><%= link_to "Les Vols", trip_flights_path(@navbar_trip), class: "dropdown-item #{'active-link' if controller_name == 'flights'}" %></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><%= link_to "Explorer les catégories", trip_categories_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><%= link_to "Explorer les catégories", trip_categories_path(@navbar_trip), class: "dropdown-item #{'active-link' if controller_name == 'categories'}" %></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><%= link_to "Transports : Pays et villes", trip_transports_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><%= link_to "Transports : Pays et villes", trip_transports_path(@navbar_trip), class: "dropdown-item #{'active-link' if controller_name == 'transports'}" %></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><%= link_to "Récapitulatif", trip_path(@navbar_trip), class: "dropdown-item" %></li>
+                  <li><%= link_to "Récapitulatif", trip_path(@navbar_trip), class: "dropdown-item #{'active-link' if controller_name == 'trips' && action_name == 'show'}" %></li>
                 <% else %>
                   <li><span class="dropdown-item text-muted">Aucun voyage en cours</span></li>
                 <% end %>
@@ -50,11 +50,11 @@
               <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Les catégories
               </a>
-              <ul class="dropdown-menu shadow border-0 dropdown-menu-end" style="min-width: 320px;">
-                <li><span class="dropdown-item fw-bold" style="color: #070485;">Les catégories</span></li>
+              <ul class="dropdown-menu shadow border-0 dropdown-menu-end bg-white" style="min-width: 320px;">
+                <li><%= link_to "Les catégories", trip_categories_path(@navbar_trip), class: "dropdown-item fw-bold" %></li>
                 <li><hr class="dropdown-divider"></li>
                 <% @egypte.categories.order(:id).each do |cat| %>
-                  <li><%= link_to cat.name, trip_category_places_path(@navbar_trip, cat), class: "dropdown-item" %></li>
+                  <li><%= link_to cat.name, trip_category_places_path(@navbar_trip, cat), class: "dropdown-item #{'active-link' if @category&.id == cat.id}" %></li>
                   <li><hr class="dropdown-divider"></li>
                 <% end %>
               </ul>
