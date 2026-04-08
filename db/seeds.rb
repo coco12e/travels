@@ -1,8 +1,8 @@
 Bookmark.destroy_all
 Flight.destroy_all
 TripTransport.destroy_all
-Transport.destroy_all
 Trip.destroy_all
+Transport.destroy_all
 Place.destroy_all
 Category.destroy_all
 Destination.destroy_all
