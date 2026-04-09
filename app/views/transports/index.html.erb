@@ -22,7 +22,7 @@
     <tbody>
       <% @transports.where(transport_type: "pays").each do |transport| %>
         <tr>
-          <td class="fw-bold align-middle text-center py-3">
+          <td class="fw-bold align-middle text-center py-3" style="font-size: 1.1rem;">
             <%= transport.name %>
             <div class="mt-2">
               <% if @selected_ids.include?(transport.id) %>
@@ -40,8 +40,20 @@
               <% end %>
             </div>
           </td>
-          <td class="py-3"></td>
-          <td class="py-3"></td>
+          <td class="py-3" style="font-size: 1.1rem;">
+            <ul class="mb-0">
+              <% transport.advantages.split("\n").each do |point| %>
+                <li><%= point %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td class="py-3" style="font-size: 1.1rem;">
+            <ul class="mb-0">
+              <% transport.disadvantages.split("\n").each do |point| %>
+                <li><%= point %></li>
+              <% end %>
+            </ul>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -67,7 +79,7 @@
     <tbody>
       <% @transports.where(transport_type: "villes").each do |transport| %>
         <tr>
-          <td class="fw-bold align-middle text-center py-3">
+          <td class="fw-bold align-middle text-center py-3" style="font-size: 1.1rem;">
             <%= transport.name %>
             <div class="mt-2">
               <% if @selected_ids.include?(transport.id) %>
@@ -85,8 +97,20 @@
               <% end %>
             </div>
           </td>
-          <td class="py-3"></td>
-          <td class="py-3"></td>
+          <td class="py-3" style="font-size: 1.1rem;">
+            <ul class="mb-0">
+              <% transport.advantages.split("\n").each do |point| %>
+                <li><%= point %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td class="py-3" style="font-size: 1.1rem;">
+            <ul class="mb-0">
+              <% transport.disadvantages.split("\n").each do |point| %>
+                <li><%= point %></li>
+              <% end %>
+            </ul>
+          </td>
         </tr>
       <% end %>
     </tbody>

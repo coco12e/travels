@@ -160,4 +160,88 @@ cat_balneaires = created_categories["Les Stations Balnéaires"]
   )
 end
 
-puts "Seeds terminées avec succès !"
+# TRANSPORTS DANS LE PAYS
+
+Transport.create!(
+  name: "Bus de voyage",
+  transport_type: "pays",
+  destination: egypte,
+  advantages: "Très économique\nDessert de nombreuses villes : Le Caire, Alexandrie, Hurghada, Louxor, Assouan, Marsa Alam, Sharm el-Sheikh\nCertaines compagnies privées offrent la climatisation et des sièges confortables\nPlusieurs pauses pendant le trajet (repos, toilettes, nourriture)",
+  disadvantages: "Trajets parfois longs, surtout pour les longues distances\nCirculation dense, notamment au Caire et à Alexandrie\nNiveau de confort variable selon la compagnie (il existe de nombreuses compagnies avec des standards différents)\nNombreux contrôles de police sur certaines routes, ce qui peut rallonger le temps de trajet, surtout vers Sharm el-Sheikh, Taba et Nuweiba"
+)
+
+Transport.create!(
+  name: "Train",
+  transport_type: "pays",
+  destination: egypte,
+  advantages: "Train de nuit disponible pour Louxor et Assouan\nBeaux paysages le long du Nil\nTrains chaque jour, avec plusieurs départs quotidiens vers Alexandrie\nPrix abordable",
+  disadvantages: "Retards fréquents\nConfort variable selon la classe (1re, 2e classe, train couchette)\nRéservation parfois compliquée pour les touristes"
+)
+
+Transport.create!(
+  name: "Avion",
+  transport_type: "pays",
+  destination: egypte,
+  advantages: "Très rapide pour les longues distances (ex. Le Caire – Assouan ou Sharm el-Sheikh, Marsa Alam)\nGain de temps important par rapport au bus ou au train\nConfortable\nIdéal pour relier les villes éloignées en peu de temps",
+  disadvantages: "Plus cher que le bus ou le train\nTemps d'attente à l'aéroport (enregistrement et contrôles de sécurité pour passer le rayon X, à l'entrée de l'aéroport, à l'entrée du terminal avant l'enregistrement, à la sortie du terminal et contrôle de police)\nLimitation de bagages selon le type de billet\nFormalités et contrôles multiples qui peuvent rallonger la durée totale du voyage"
+)
+
+Transport.create!(
+  name: "Louer une voiture",
+  transport_type: "pays",
+  destination: egypte,
+  advantages: "Grande liberté de déplacement et flexibilité d'horaires\nPratique pour explorer les zones rurales, le désert ou des sites touristiques éloignés\nPossibilité de s'arrêter où et quand on le souhaite\nIdéal pour les voyages en groupe ou en famille",
+  disadvantages: "Conduite difficile dans les grandes villes comme Le Caire ou Alexandrie (trafic dense, circulation chaotique)\nRègles de circulation parfois peu respectueuses, prudence obligatoire\nCoûts supplémentaires : essence, péages, assurance\nBesoin d'un permis de conduire valide et parfois d'une traduction officielle pour les touristes\nNombreux contrôles de police sur certaines routes, ce qui peut rallonger le temps de trajet, surtout vers Sharm el-Sheikh, Taba et Nuweiba"
+)
+
+# TRANSPORTS DANS LES VILLES
+
+Transport.create!(
+  name: "Bus urbain",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Très économique\nLarge couverture dans la ville et ses banlieues\nPlusieurs compagnies offrent la climatisation sur certaines lignes",
+  disadvantages: "Circulation dense dans les grandes villes, surtout au Caire et Alexandrie\nTrajets parfois longs en heures de pointe\nNiveau de confort variable selon la compagnie et le bus"
+)
+
+Transport.create!(
+  name: "Métro",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Rapide pour traverser uniquement au Caire\nÉvite les embouteillages\nTarif très abordable\nFréquent et fiable pour les trajets urbains principaux",
+  disadvantages: "Surchargé aux heures de pointe\nPeu de lignes, couvre surtout le centre-ville et certaines banlieues\nPeu pratique pour rejoindre certains quartiers ou zones touristiques éloignées"
+)
+
+Transport.create!(
+  name: "Tram",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Principalement disponible à Alexandrie\nMoyen de transport stable et sûr\nPrix très abordable\nOffre un trajet agréable le long de certaines avenues et du bord de mer",
+  disadvantages: "Réseau limité à certaines zones\nMoins rapide que le métro ou le bus en heures de pointe\nVieillissement des infrastructures sur certaines lignes"
+)
+
+Transport.create!(
+  name: "Louer une voiture",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Grande liberté de déplacement et flexibilité d'horaires\nPratique pour visiter la ville et ses environs à son rythme\nPossibilité de s'arrêter où on veut\nUtile aussi pour les voyages à l'intérieur du pays, entre différentes villes ou sites touristiques",
+  disadvantages: "Conduite difficile dans les grandes villes comme Le Caire ou Alexandrie (trafic dense, circulation chaotique)\nRègles de circulation parfois peu respectées\nCoûts supplémentaires : essence, péages, assurance\nBesoin d'un permis de conduire valide et parfois traduction officielle pour les touristes\nNombreux contrôles de police sur certaines routes, ce qui peut rallonger le temps du trajet"
+)
+
+Transport.create!(
+  name: "Taxi",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Facilement disponible dans la plupart des villes\nPratique pour des trajets courts ou rapides\nPas besoin de se soucier de la conduite ou du stationnement",
+  disadvantages: "Tarifs parfois variables, négociation souvent nécessaire\nCertains taxis n'ont pas de compteur ou le chauffeur n'active pas, il faut donc négocier le prix avant le départ\nCirculation dense dans les grandes villes peut rallonger les trajets\nConfort limité selon le véhicule"
+)
+
+Transport.create!(
+  name: "Uber",
+  transport_type: "villes",
+  destination: egypte,
+  advantages: "Tarif fixe visible avant le trajet\nPlus sûr et plus pratique que le taxi classique\nPaiement possible par application, pas besoin d'argent liquide\nVéhicules souvent plus récents et confortables",
+  disadvantages: "Disponible surtout dans les grandes villes (Le Caire, Alexandrie)\nPlus cher qu'un taxi traditionnel classique\nTrajets ralentis en cas de trafic dense\nDépendance à la couverture réseau et à l'application mobile"
+)
+
+puts "Transports seedés avec succès !"
