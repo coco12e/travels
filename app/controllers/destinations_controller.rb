@@ -11,6 +11,7 @@ class DestinationsController < ApplicationController
     @show_categories_nav = true
     @destination = Destination.find(params[:id])
     @trip = current_user.trips.where(destination: @destination).order(:created_at).last
+    @navbar_trip = @trip
   end
 
   private
