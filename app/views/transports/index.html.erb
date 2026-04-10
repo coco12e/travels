@@ -3,7 +3,7 @@
 <div class="container-fluid px-5 py-5">
 
   <%# Transports dans le Pays %>
-  <div class="mb-5">
+  <div class="mb-4">
     <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Transports dans le Pays</h1>
     <p class="text-dark w-100 lh-lg fs-5">
       Le réseau de transport égyptien est conçu pour offrir une autonomie totale aux voyageurs qui souhaitent construire leur
@@ -11,44 +11,57 @@
     </p>
   </div>
 
-  <table class="table table-bordered mb-5">
-    <thead>
+  <% transport_icons = {
+    "Bus de voyage"    => "fa-solid fa-bus-simple",
+    "Train"            => "fa-solid fa-train",
+    "Avion"            => "fa-solid fa-plane-up",
+    "Louer une voiture"=> "fa-solid fa-car",
+    "Bus urbain"       => "fa-solid fa-bus",
+    "Métro"            => "fa-solid fa-train-subway",
+    "Tram"             => "fa-solid fa-train-tram",
+    "Taxi"             => "fa-solid fa-taxi",
+    "Uber"             => "fa-brands fa-uber"
+  } %>
+
+  <table class="table table-bordered mb-5" style="font-size: 1.15rem; border-color: #888 !important;">
+    <thead style="background-color: #070485; color: white;">
       <tr>
-        <th style="width: 15%;"></th>
-        <th class="text-center fw-bold fs-5 py-3">Avantages</th>
-        <th class="text-center fw-bold fs-5 py-3">Inconvénients</th>
+        <th style="width: 16%; font-size: 1.2rem; padding: 14px;"></th>
+        <th class="text-center fw-bold py-3" style="font-size: 1.2rem;">✅ Avantages</th>
+        <th class="text-center fw-bold py-3" style="font-size: 1.2rem;">❌ Inconvénients</th>
       </tr>
     </thead>
     <tbody>
-      <% @transports.where(transport_type: "pays").each do |transport| %>
-        <tr>
-          <td class="fw-bold align-middle text-center py-3" style="font-size: 1.1rem;">
-            <%= transport.name %>
-            <div class="mt-2">
-              <% if @selected_ids.include?(transport.id) %>
-                <%= button_to "Désélectionner", trip_transport_path(@trip, transport, transport_id: transport.id),
-                      method: :delete,
-                      data: { turbo: false },
-                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                      style: "background-color: #27ae60; font-size: 0.85rem;" %>
-              <% else %>
-                <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
-                      method: :post,
-                      data: { turbo: false },
-                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                      style: "background-color: #d35400; font-size: 0.85rem;" %>
-              <% end %>
+      <% @transports.where(transport_type: "pays").each_with_index do |transport, idx| %>
+        <tr style="background-color: <%= idx.even? ? '#d0d0d0' : '#ffffff' %>; border-color: #888;">
+          <td class="fw-bold align-middle text-center py-4" style="font-size: 1.2rem; color: #111; border-color: #888;">
+            <div class="mb-2" style="font-size: 2rem; color: #d35400;">
+              <i class="<%= transport_icons[transport.name] || 'fa-solid fa-circle-question' %>"></i>
             </div>
+            <div class="mb-3"><%= transport.name %></div>
+            <% if @selected_ids.include?(transport.id) %>
+              <%= button_to "✔ Sélectionné", trip_transport_path(@trip, transport, transport_id: transport.id),
+                    method: :delete,
+                    data: { turbo: false },
+                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                    style: "background-color: #27ae60; font-size: 0.95rem;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+                    method: :post,
+                    data: { turbo: false },
+                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                    style: "background-color: #d35400; font-size: 0.95rem;" %>
+            <% end %>
           </td>
-          <td class="py-3" style="font-size: 1.1rem;">
-            <ul class="mb-0">
+          <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">
+            <ul class="mb-0" style="line-height: 2;">
               <% transport.advantages.split("\n").each do |point| %>
                 <li><%= point %></li>
               <% end %>
             </ul>
           </td>
-          <td class="py-3" style="font-size: 1.1rem;">
-            <ul class="mb-0">
+          <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">
+            <ul class="mb-0" style="line-height: 2;">
               <% transport.disadvantages.split("\n").each do |point| %>
                 <li><%= point %></li>
               <% end %>
@@ -60,7 +73,7 @@
   </table>
 
   <%# Transports dans les Villes %>
-  <div class="mb-5">
+  <div class="mb-4">
     <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Transports dans les Villes</h1>
     <p class="text-dark w-100 lh-lg fs-5">
       Le paysage urbain offre une grande diversité de moyens de transport, allant des systèmes de masse structurés aux
@@ -68,44 +81,45 @@
     </p>
   </div>
 
-  <table class="table table-bordered mb-5">
-    <thead>
+  <table class="table table-bordered mb-5" style="font-size: 1.15rem; border-color: #888 !important;">
+    <thead style="background-color: #070485; color: white;">
       <tr>
-        <th style="width: 15%;"></th>
-        <th class="text-center fw-bold fs-5 py-3">Avantages</th>
-        <th class="text-center fw-bold fs-5 py-3">Inconvénients</th>
+        <th style="width: 16%; font-size: 1.2rem; padding: 14px;"></th>
+        <th class="text-center fw-bold py-3" style="font-size: 1.2rem;">✅ Avantages</th>
+        <th class="text-center fw-bold py-3" style="font-size: 1.2rem;">❌ Inconvénients</th>
       </tr>
     </thead>
     <tbody>
-      <% @transports.where(transport_type: "villes").each do |transport| %>
-        <tr>
-          <td class="fw-bold align-middle text-center py-3" style="font-size: 1.1rem;">
-            <%= transport.name %>
-            <div class="mt-2">
-              <% if @selected_ids.include?(transport.id) %>
-                <%= button_to "Désélectionner", trip_transport_path(@trip, transport, transport_id: transport.id),
-                      method: :delete,
-                      data: { turbo: false },
-                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                      style: "background-color: #27ae60; font-size: 0.85rem;" %>
-              <% else %>
-                <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
-                      method: :post,
-                      data: { turbo: false },
-                      class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                      style: "background-color: #d35400; font-size: 0.85rem;" %>
-              <% end %>
+      <% @transports.where(transport_type: "villes").each_with_index do |transport, idx| %>
+        <tr style="background-color: <%= idx.even? ? '#d0d0d0' : '#ffffff' %>; border-color: #888;">
+          <td class="fw-bold align-middle text-center py-4" style="font-size: 1.2rem; color: #111; border-color: #888;">
+            <div class="mb-2" style="font-size: 2rem; color: #d35400;">
+              <i class="<%= transport_icons[transport.name] || 'fa-solid fa-circle-question' %>"></i>
             </div>
+            <div class="mb-3"><%= transport.name %></div>
+            <% if @selected_ids.include?(transport.id) %>
+              <%= button_to "✔ Sélectionné", trip_transport_path(@trip, transport, transport_id: transport.id),
+                    method: :delete,
+                    data: { turbo: false },
+                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                    style: "background-color: #27ae60; font-size: 0.95rem;" %>
+            <% else %>
+              <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+                    method: :post,
+                    data: { turbo: false },
+                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
+                    style: "background-color: #d35400; font-size: 0.95rem;" %>
+            <% end %>
           </td>
-          <td class="py-3" style="font-size: 1.1rem;">
-            <ul class="mb-0">
+          <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">
+            <ul class="mb-0" style="line-height: 2;">
               <% transport.advantages.split("\n").each do |point| %>
                 <li><%= point %></li>
               <% end %>
             </ul>
           </td>
-          <td class="py-3" style="font-size: 1.1rem;">
-            <ul class="mb-0">
+          <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">
+            <ul class="mb-0" style="line-height: 2;">
               <% transport.disadvantages.split("\n").each do |point| %>
                 <li><%= point %></li>
               <% end %>
@@ -118,7 +132,7 @@
 
 </div>
 
-<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+<footer style="width: 100%; padding: 12px 24px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
   <%= link_to "← Les plats typiques", trip_category_places_path(@trip, @destination.categories.order(:id).last),
         class: "btn fw-semibold px-4",
         style: "color: white; border: 0; background-color: #d35400;" %>

@@ -11,7 +11,7 @@
 %>
 <%= render "shared/stepper", current_step: current_step %>
 
-<div class="container-fluid px-5 py-5">
+<div class="container-fluid px-5 py-5" style="background-color: #f0f2f5;">
   <div class="mb-5">
     <h1 class="display-4 fw-bold mb-4" style="color: #070485;">
       <%= @category&.name %>
@@ -24,8 +24,12 @@
         <p class="m-0">Cette section invite les voyageurs à découvrir les paysages emblématiques et les trésors architecturaux qui jalonnent la vallée du Nil et le littoral méditerranéen.</p>
       <% when "Les Stations Balnéaires" %>
         <p class="m-0">Cette section propose des expériences uniques pour les voyageurs souhaitant s'éloigner des parcours classiques et découvrir des paysages naturels spectaculaires, tant sur la mer Rouge que sur la Méditerranée.</p>
+      <% when "Les Hors circuits" %>
+        <p class="m-0">Cette section propose des expériences uniques pour les voyageurs souhaitant s'éloigner des parcours classiques et découvrir des paysages naturels spectaculaires ainsi que des cultures locales préservées.</p>
+      <% when "Les déserts et le Nil" %>
+        <p class="m-0">Cette section invite à découvrir les paysages emblématiques de l'Égypte, entre l'immensité aride du désert et la vie foisonnante des bords du Nil.</p>
       <% else %>
-        <p class="m-0">Découvrez les trésors de cette catégorie pour votre itinéraire personnalisé.</p>
+        <p class="m-0">La gastronomie égyptienne offre des saveurs authentiques, allant de plats complets et nourrissants à des douceurs parfumées.</p>
       <% end %>
     </div>
   </div>
@@ -39,41 +43,62 @@
           </h2>
         <% end %>
 
-        <% places.each do |place| %>
-          <div class="row mb-5 g-4 align-items-stretch overflow-hidden" id="place-<%= place.id %>">
-            <div class="col-12 d-md-flex <%= 'flex-row-reverse' if place.name == 'Naama Bay' %>">
-
-              <div class="col-md-3">
-                <div class="ratio ratio-4x3 bg-light rounded-1 overflow-hidden border h-100">
+        <% if @category&.name == "Les plats typiques" %>
+          <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+            <% places.each do |place| %>
+              <div class="col">
+                <div class="card h-100 shadow-sm border-0" id="place-<%= place.id %>">
                   <% if place.photo_url.present? %>
-                    <img src="/<%= place.photo_url.strip %>" class="img-fluid w-100 h-100 object-fit-cover" alt="<%= place.name %>">
+                    <img src="/images/<%= place.photo_url.strip %>" class="card-img-top" alt="<%= place.name %>" style="object-fit: contain; background: #f8f8f8;">
                   <% else %>
-                    <div class="d-flex align-items-center justify-content-center h-100 bg-white">
+                    <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center;">
                       <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
                     </div>
                   <% end %>
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold" style="color: #070485; font-size: 1.3rem;"><%= place.name %></h5>
+                    <p class="card-text text-dark" style="font-size: 1rem; flex: 1;"><%= place.description&.squish %></p>
+                  </div>
                 </div>
               </div>
+            <% end %>
+          </div>
 
-              <div class="col-md-9 d-flex flex-column justify-content-between px-md-4">
+        <% else %>
+          <% places.each do |place| %>
+            <div id="place-<%= place.id %>" class="mb-4 rounded-3 shadow-sm bg-white" style="display: flex; overflow: hidden;">
+
+              <%# IMAGE %>
+              <div style="width: 350px; min-width: 350px; min-height: 220px; position: relative; overflow: hidden;">
+                <% if place.photo_url.present? %>
+                  <img src="/images/<%= place.photo_url.strip %>" alt="<%= place.name %>"
+                       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                <% else %>
+                  <div style="width: 100%; height: 100%; min-height: 220px; background: #eee; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
+                  </div>
+                <% end %>
+              </div>
+
+              <%# CONTENU %>
+              <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
-                  <h4 class="fw-bold mb-3 text-dark mt-3 mt-md-0 fs-3"><%= place.name %></h4>
+                  <h4 style="color: #070485; font-weight: 700; margin-bottom: 6px; font-size: 1.5rem;"><%= place.name %></h4>
                   <% if place.address.present? %>
-                    <p class="text-muted mb-2">
+                    <p style="color: #888; font-size: 1.1rem; margin-bottom: 10px;">
                       <i class="fa-solid fa-location-dot me-1" style="color: #d35400;"></i>
                       <%= place.address %>
                     </p>
                   <% end %>
-                  <p class="text-dark lh-lg fs-5"><%= place.description&.squish %></p>
+                  <p style="font-size: 1.25rem; color: #333;"><%= place.description&.squish %></p>
                 </div>
-
-                <div class="d-flex justify-content-end mt-3" id="bookmark-btn-<%= place.id %>">
-                  <%= render "places/bookmark_btn", place: place, trip: @trip %>
+                <div style="display: flex; justify-content: flex-end;" id="bookmark-btn-<%= place.id %>">
+                  <%= render "places/bookmark_btn", place: place, trip: @trip, return_to: params[:return_to] %>
                 </div>
               </div>
 
             </div>
-          </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -85,7 +110,7 @@
 <% prev_category = categories[current_index - 1] if current_index > 0 %>
 <% next_category = categories[current_index + 1] %>
 
-<footer style="width: 100%; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;">
+<footer style="width: 100%; padding: 12px 24px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
   <% if prev_category %>
     <%= link_to "← #{prev_category.name}", trip_category_places_path(@trip, prev_category),
           class: "btn fw-semibold px-4",

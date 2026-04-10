@@ -6,24 +6,28 @@
       <span style="color: #070485;">Travel</span>
     <% end %>
 
+    <span style="color: #ccc; margin: 0 8px;">|</span>
+
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav ms-auto align-items-center gap-2">
 
+      <ul class="navbar-nav align-items-center justify-content-evenly flex-grow-1 ms-3" style="gap: 0;">
         <li class="nav-item">
-          <%= link_to "Accueil", root_path, class: "nav-link fw-semibold" %>
+          <%= link_to "Accueil", root_path, class: "nav-link fw-semibold", style: "#{controller_name == 'pages' && action_name == 'home' ? 'color: #d35400;' : ''}" %>
         </li>
-
+        <li class="nav-item"><span style="color: #ccc;">|</span></li>
         <li class="nav-item">
-          <%= link_to "Destinations", destinations_path(continent: "Moyen-Orient"), class: "nav-link fw-semibold" %>
+          <%= link_to "Destinations", destinations_path(continent: "Moyen-Orient"), class: "nav-link fw-semibold", style: "#{controller_name == 'destinations' && action_name == 'index' ? 'color: #d35400;' : ''}" %>
         </li>
 
         <% if @egypte && !@hide_egypte_nav %>
+          <li class="nav-item"><span style="color: #ccc;">|</span></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+               style="<%= (%w[flights transports trips].include?(controller_name) || (controller_name == 'destinations' && action_name == 'show')) ? 'color: #d35400;' : '' %>">
               L'Égypte Explorer
             </a>
             <ul class="dropdown-menu shadow border-0 bg-white">
@@ -46,33 +50,42 @@
           </li>
 
           <% if @show_categories_nav && user_signed_in? && @navbar_trip %>
+            <li class="nav-item"><span style="color: #ccc;">|</span></li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                 style="<%= (controller_name == 'places' || controller_name == 'categories') ? 'color: #d35400;' : '' %>">
                 Les catégories
               </a>
               <ul class="dropdown-menu shadow border-0 dropdown-menu-end bg-white" style="min-width: 320px;">
                 <li><%= link_to "Les catégories", trip_categories_path(@navbar_trip), class: "dropdown-item fw-bold" %></li>
                 <li><hr class="dropdown-divider"></li>
-                <% @egypte.categories.order(:id).each do |cat| %>
+                <% categories = @egypte.categories.order(:id).to_a %>
+                <% categories.each_with_index do |cat, idx| %>
                   <li><%= link_to cat.name, trip_category_places_path(@navbar_trip, cat), class: "dropdown-item #{'active-link' if @category&.id == cat.id}" %></li>
-                  <li><hr class="dropdown-divider"></li>
+                  <% unless idx == categories.size - 1 %>
+                    <li><hr class="dropdown-divider"></li>
+                  <% end %>
                 <% end %>
               </ul>
             </li>
           <% end %>
         <% end %>
+      </ul>
 
+      <ul class="navbar-nav align-items-center gap-2">
         <% if user_signed_in? %>
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center gap-2">
+            <span style="color: #ccc;">|</span>
             <%= button_to "Se déconnecter", destroy_user_session_path, method: :delete, class: "nav-link fw-semibold text-dark border-0 bg-transparent" %>
           </li>
         <% else %>
-          <li class="nav-item">
+          <li class="nav-item d-flex align-items-center gap-2">
+            <span style="color: #ccc;">|</span>
             <%= link_to "Connexion", new_user_session_path, class: "nav-link fw-semibold" %>
           </li>
         <% end %>
-
       </ul>
+
     </div>
   </div>
 </nav>

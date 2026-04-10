@@ -1,5 +1,4 @@
 <% bookmark = trip.bookmarks.find_by(place: place) %>
-
 <% if bookmark %>
   <%= button_to trip_bookmark_path(trip, bookmark),
         method: :delete,
@@ -7,10 +6,10 @@
         data: { turbo: false },
         class: "btn p-0 border-0 bg-transparent" do %>
     <div class="d-flex align-items-center gap-2">
-      <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #27ae60; display: flex; align-items: center; justify-content: center; background: white;">
-        <div style="width: 10px; height: 10px; border-radius: 50%; background: #27ae60;"></div>
+      <div style="width: 30px; height: 30px; border-radius: 50%; border: 2px solid #27ae60; display: flex; align-items: center; justify-content: center; background: white;">
+        <div style="width: 14px; height: 14px; border-radius: 50%; background: #27ae60;"></div>
       </div>
-      <span style="font-size: 13px; color: #27ae60; font-weight: 500;">Sélectionné</span>
+      <span style="font-size: 1.1rem; color: #27ae60; font-weight: 600;">Sélectionné</span>
     </div>
   <% end %>
 <% else %>
@@ -20,8 +19,8 @@
         data: { turbo: false },
         class: "btn p-0 border-0 bg-transparent" do %>
     <div class="d-flex align-items-center gap-2">
-      <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d35400; background: white;"></div>
-      <span style="font-size: 13px; color: #d35400;">Sélectionner</span>
+      <div style="width: 30px; height: 30px; border-radius: 50%; border: 2px solid #d35400; background: white;"></div>
+      <span style="font-size: 1.1rem; color: #d35400; font-weight: 600;">Sélectionner</span>
     </div>
   <% end %>
 <% end %>

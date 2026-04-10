@@ -1,0 +1,79 @@
+<div class="container-fluid px-5 py-5">
+  <div class="mb-5">
+    <h1 class="display-4 fw-bold mb-2" style="color: #070485;">Résultats pour "<%= @query %>"</h1>
+    <h2 class="h4 fw-normal" style="color: #019dbd;">
+      <%= @destinations.count + @categories.count + @places.count %> résultat(s) trouvé(s)
+    </h2>
+  </div>
+
+  <% if @destinations.empty? && @categories.empty? && @places.empty? %>
+    <div class="text-center py-5">
+      <i class="fa-solid fa-magnifying-glass fs-1 text-secondary mb-3"></i>
+      <p class="fs-5 text-muted">Aucun résultat pour "<%= @query %>"</p>
+      <%= link_to "Retour aux destinations", destinations_path(continent: "Moyen-Orient"), class: "btn btn-outline-primary mt-2" %>
+    </div>
+  <% else %>
+
+    <%# Destinations %>
+    <% if @destinations.any? %>
+      <h3 class="fw-bold mb-3" style="color: #070485;">Destinations</h3>
+      <div class="row g-4 mb-5">
+        <% @destinations.each do |destination| %>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm bg-white overflow-hidden h-100 rounded-3">
+              <div class="ratio ratio-16x9 bg-light">
+                <% if destination.banner_url.present? %>
+                  <img src="/<%= destination.banner_url %>" class="card-img-top object-fit-cover" alt="<%= destination.name %>">
+                <% else %>
+                  <div class="d-flex align-items-center justify-content-center h-100">
+                    <i class="fa-solid fa-earth-americas text-secondary fs-1"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <h5 class="card-title fw-bold m-0" style="color: #070485;"><%= destination.name %></h5>
+                <div class="mt-auto pt-3 d-flex justify-content-end">
+                  <%= link_to "Sélectionner", destination_path(destination), class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2", style: "background-color: #d35400;" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Catégories %>
+    <% if @categories.any? %>
+      <h3 class="fw-bold mb-3" style="color: #070485;">Catégories</h3>
+      <div class="row g-3 mb-5">
+        <% @categories.each do |category| %>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm bg-white rounded-3 p-3">
+              <h5 class="fw-bold m-0" style="color: #070485;"><%= category.name %></h5>
+              <p class="text-muted mb-0 mt-1"><%= category.destination.name %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Places %>
+    <% if @places.any? %>
+      <h3 class="fw-bold mb-3" style="color: #070485;">Lieux</h3>
+      <div class="row g-3 mb-5">
+        <% @places.each do |place| %>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm bg-white rounded-3 p-3">
+              <h5 class="fw-bold m-0" style="color: #070485;"><%= place.name %></h5>
+              <p class="text-muted mb-0 mt-1"><%= place.category.name %></p>
+              <div class="mt-3 d-flex justify-content-end">
+                <%= link_to "Voir", place_path(place), class: "btn btn-sm px-3 fw-bold text-white border-0 rounded-2", style: "background-color: #d35400;" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+  <% end %>
+</div>

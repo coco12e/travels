@@ -76,7 +76,7 @@
   <%# Bouton Sélectionner / Désélectionner %>
   <div class="mt-2 d-flex justify-content-end">
     <% if trip.flight_id == flight.id %>
-      <%= button_to "Désélectionner", unselect_flight_trip_path(trip),
+      <%= button_to "Désélectionner", unselect_flight_trip_path(trip, return_to: params[:return_to]),
             method: :patch,
             data: { turbo: false },
             class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",

@@ -50,12 +50,20 @@ class TripsController < ApplicationController
 
   def select_flight
     @trip.update(flight_id: params[:flight_id])
-    redirect_to trip_flights_path(@trip)
+    if params[:return_to] == "show"
+      redirect_to trip_path(@trip)
+    else
+      redirect_to trip_flights_path(@trip)
+    end
   end
 
   def unselect_flight
     @trip.update(flight_id: nil)
-    redirect_to trip_flights_path(@trip)
+    if params[:return_to] == "show"
+      redirect_to trip_path(@trip)
+    else
+      redirect_to trip_flights_path(@trip)
+    end
   end
 
   private
