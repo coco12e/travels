@@ -25,7 +25,14 @@
       <%= yield %>
     </div>
 
-    <% if controller_name == 'destinations' && action_name == 'show' %>
+    <% egypte_explorer_pages = (controller_name == 'destinations' && action_name == 'show') ||
+                                controller_name == 'flights' ||
+                                controller_name == 'categories' ||
+                                controller_name == 'places' ||
+                                controller_name == 'transports' ||
+                                (controller_name == 'trips' && action_name == 'show') %>
+
+    <% if egypte_explorer_pages %>
       <footer style="background-color: #f8f9fa; border-top: 1px solid #dee2e6; padding: 20px 60px;">
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: start;">
           <div>
