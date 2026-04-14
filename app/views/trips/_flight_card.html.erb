@@ -76,17 +76,27 @@
   <%# Bouton Sélectionner / Désélectionner %>
   <div class="mt-2 d-flex justify-content-end">
     <% if trip.flight_id == flight.id %>
-      <%= button_to "Désélectionner", unselect_flight_trip_path(trip, return_to: params[:return_to]),
+      <%= button_to unselect_flight_trip_path(trip, return_to: params[:return_to]),
             method: :patch,
             data: { turbo: false },
-            class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",
-            style: "background-color: #27ae60;" %>
+            class: "btn p-0 border-0 bg-transparent" do %>
+        <div class="d-flex align-items-center gap-2">
+          <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #27ae60; background: white; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 14px; height: 14px; border-radius: 50%; background: #27ae60;"></div>
+          </div>
+          <span style="font-size: 1.1rem; color: #27ae60; font-weight: 600;">Sélectionné</span>
+        </div>
+      <% end %>
     <% else %>
-      <%= button_to "Sélectionner", select_flight_trip_path(trip, flight_id: flight.id, return_to: params[:return_to]),
+      <%= button_to select_flight_trip_path(trip, flight_id: flight.id, return_to: params[:return_to]),
             method: :patch,
             data: { turbo: false },
-            class: "btn px-4 fw-bold shadow-sm text-white border-0 rounded-2",
-            style: "background-color: #d35400;" %>
+            class: "btn p-0 border-0 bg-transparent" do %>
+        <div class="d-flex align-items-center gap-2">
+          <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d35400; background: white;"></div>
+          <span style="font-size: 1.1rem; color: #d35400; font-weight: 600;">Sélectionner</span>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

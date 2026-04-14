@@ -40,17 +40,27 @@
             </div>
             <div class="mb-3"><%= transport.name %></div>
             <% if @selected_ids.include?(transport.id) %>
-              <%= button_to "✔ Sélectionné", trip_transport_path(@trip, transport, transport_id: transport.id),
+              <%= button_to trip_transport_path(@trip, transport, transport_id: transport.id),
                     method: :delete,
                     data: { turbo: false },
-                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                    style: "background-color: #27ae60; font-size: 0.95rem;" %>
+                    class: "btn p-0 border-0 bg-transparent" do %>
+                <div class="d-flex align-items-center gap-2">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #27ae60; background: white; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #27ae60;"></div>
+                  </div>
+                  <span style="font-size: 1.1rem; color: #27ae60; font-weight: 600;">Sélectionné</span>
+                </div>
+              <% end %>
             <% else %>
-              <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+              <%= button_to trip_transports_path(@trip, transport_id: transport.id),
                     method: :post,
                     data: { turbo: false },
-                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                    style: "background-color: #d35400; font-size: 0.95rem;" %>
+                    class: "btn p-0 border-0 bg-transparent" do %>
+                <div class="d-flex align-items-center gap-2">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d35400; background: white;"></div>
+                  <span style="font-size: 1.1rem; color: #d35400; font-weight: 600;">Sélectionner</span>
+                </div>
+              <% end %>
             <% end %>
           </td>
           <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">
@@ -98,17 +108,27 @@
             </div>
             <div class="mb-3"><%= transport.name %></div>
             <% if @selected_ids.include?(transport.id) %>
-              <%= button_to "✔ Sélectionné", trip_transport_path(@trip, transport, transport_id: transport.id),
+              <%= button_to trip_transport_path(@trip, transport, transport_id: transport.id),
                     method: :delete,
                     data: { turbo: false },
-                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                    style: "background-color: #27ae60; font-size: 0.95rem;" %>
+                    class: "btn p-0 border-0 bg-transparent" do %>
+                <div class="d-flex align-items-center gap-2">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #27ae60; background: white; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 14px; height: 14px; border-radius: 50%; background: #27ae60;"></div>
+                  </div>
+                  <span style="font-size: 1.1rem; color: #27ae60; font-weight: 600;">Sélectionné</span>
+                </div>
+              <% end %>
             <% else %>
-              <%= button_to "Sélectionner", trip_transports_path(@trip, transport_id: transport.id),
+              <%= button_to trip_transports_path(@trip, transport_id: transport.id),
                     method: :post,
                     data: { turbo: false },
-                    class: "btn px-3 fw-bold text-white border-0 rounded-2",
-                    style: "background-color: #d35400; font-size: 0.95rem;" %>
+                    class: "btn p-0 border-0 bg-transparent" do %>
+                <div class="d-flex align-items-center gap-2">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d35400; background: white;"></div>
+                  <span style="font-size: 1.1rem; color: #d35400; font-weight: 600;">Sélectionner</span>
+                </div>
+              <% end %>
             <% end %>
           </td>
           <td class="py-4 px-4" style="font-size: 1.1rem; vertical-align: top; color: #111; border-color: #888;">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_215630) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_180403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -99,6 +99,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_215630) do
     t.string "name"
     t.string "photo_url"
     t.string "sub_category"
+    t.string "tags"
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_places_on_category_id"
     t.index ["destination_id"], name: "index_places_on_destination_id"

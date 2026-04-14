@@ -11,7 +11,72 @@
 %>
 <%= render "shared/stepper", current_step: current_step %>
 
+<style>
+  .place-accordion .accordion-button {
+    background: white;
+    color: #070485;
+    font-weight: 700;
+    font-size: 1.5rem;
+    box-shadow: none;
+    border: none;
+    padding: 12px 16px;
+  }
+  .place-accordion .accordion-button::after {
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-size: 1.8rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23d35400'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+  }
+  .place-accordion .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23d35400'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    transform: rotate(90deg);
+  }
+  .place-accordion .accordion-button:focus {
+    box-shadow: none;
+  }
+  .place-accordion .accordion-item {
+    border: none;
+  }
+
+  .food-card-img-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  .food-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .food-card-img-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .place-tag {
+    background-color: #d35400;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 20px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+</style>
+
 <div class="container-fluid px-5 py-5" style="background-color: #f0f2f5;">
+
   <div class="mb-5">
     <h1 class="display-4 fw-bold mb-4" style="color: #070485;">
       <%= @category&.name %>
@@ -37,6 +102,7 @@
   <div class="row">
     <div class="col-12">
       <% @places.group_by(&:sub_category).each do |sub_cat_name, places| %>
+
         <% if sub_cat_name.present? %>
           <h2 class="fw-bold mb-4 mt-5" id="<%= sub_cat_name.parameterize %>" style="color: #070485;">
             <%= places.size == 1 ? sub_cat_name.gsub("Les activités", "L'activité") : sub_cat_name %>
@@ -44,35 +110,80 @@
         <% end %>
 
         <% if @category&.name == "Les plats typiques" %>
-          <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+
+          <div class="row row-cols-2 g-3 mb-4">
             <% places.each do |place| %>
               <div class="col">
-                <div class="card h-100 shadow-sm border-0" id="place-<%= place.id %>">
-                  <% if place.photo_url.present? %>
-                    <img src="https://res.cloudinary.com/hxrgs7wcp/image/upload/<%= place.photo_url.strip.gsub(File.extname(place.photo_url.strip), "") %>" class="card-img-top" alt="<%= place.name %>" style="object-fit: contain; background: #f8f8f8;">
-                  <% else %>
-                    <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center;">
-                      <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
-                    </div>
-                  <% end %>
-                  <div class="card-body d-flex flex-column">
-                    <h5 class="card-title fw-bold" style="color: #070485; font-size: 1.3rem;"><%= place.name %></h5>
-                    <p class="card-text text-dark" style="font-size: 1rem; flex: 1;"><%= place.description&.squish %></p>
+                <div class="card shadow-sm border-0" id="place-<%= place.id %>" style="display: flex; flex-direction: row; overflow: visible; border-radius: 8px;">
+
+                  <%# Image à gauche - hauteur fixe indépendante %>
+                  <div style="width: 300px; min-width: 300px; height: 180px; position: relative; overflow: hidden; flex-shrink: 0; align-self: flex-start; border-radius: 8px 0 0 8px;">
+                    <% if place.photo_url.present? %>
+                      <img
+                        src="https://res.cloudinary.com/hxrgs7wcp/image/upload/<%= place.photo_url.strip.gsub(File.extname(place.photo_url.strip), "") %>"
+                        alt="<%= place.name %>"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    <% else %>
+                      <div style="width: 100%; height: 100%; background: #eee; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
+                      </div>
+                    <% end %>
                   </div>
+
+                  <%# Contenu à droite %>
+                  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 14px; overflow: hidden;">
+
+                    <%# Titre %>
+                    <h5 style="color: #070485; font-weight: 700; font-size: 1.5rem; margin-bottom: 8px;"><%= place.name %></h5>
+
+                    <%# Tags %>
+                    <% if place.tags.present? %>
+                      <div class="d-flex flex-wrap gap-1 mb-3">
+                        <% place.tags.split(",").each do |tag| %>
+                          <span class="place-tag"><%= tag.strip %></span>
+                        <% end %>
+                      </div>
+                    <% end %>
+
+                    <%# Ligne "Voir la description" + flèche %>
+                    <button
+                      class="btn p-0 border-0 bg-transparent d-flex align-items-center justify-content-between w-100"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapse-<%= place.id %>"
+                      aria-expanded="false"
+                      style="color: #333;">
+                      <span style="font-size: 1rem; font-weight: 500;">Voir la description du plat</span>
+                      <svg id="arrow-<%= place.id %>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#d35400" width="24" height="24" style="transition: transform 0.2s; flex-shrink: 0;">
+                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                    </button>
+
+                    <%# Description cachée %>
+                    <div id="collapse-<%= place.id %>" class="collapse mt-2">
+                      <p class="text-dark mb-0" style="font-size: 1.1rem;">
+                        <%= place.description&.squish %>
+                      </p>
+                    </div>
+
+                  </div>
+
                 </div>
               </div>
             <% end %>
           </div>
 
         <% else %>
+
           <% places.each do |place| %>
             <div id="place-<%= place.id %>" class="mb-4 rounded-3 shadow-sm bg-white" style="display: flex; overflow: hidden;">
 
-              <%# IMAGE %>
-              <div style="width: 350px; min-width: 350px; min-height: 220px; position: relative; overflow: hidden;">
+              <div style="width: 350px; min-width: 350px; height: 250px; position: relative; overflow: hidden;">
                 <% if place.photo_url.present? %>
-                  <img src="https://res.cloudinary.com/hxrgs7wcp/image/upload/<%= place.photo_url.strip.gsub(File.extname(place.photo_url.strip), "") %>" alt="<%= place.name %>"
-                       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                  <img
+                    src="https://res.cloudinary.com/hxrgs7wcp/image/upload/<%= place.photo_url.strip.gsub(File.extname(place.photo_url.strip), "") %>"
+                    alt="<%= place.name %>"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                 <% else %>
                   <div style="width: 100%; height: 100%; min-height: 220px; background: #eee; display: flex; align-items: center; justify-content: center;">
                     <i class="fa-solid fa-image text-secondary fs-1 opacity-25"></i>
@@ -80,7 +191,6 @@
                 <% end %>
               </div>
 
-              <%# CONTENU %>
               <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                   <h4 style="color: #070485; font-weight: 700; margin-bottom: 6px; font-size: 1.5rem;"><%= place.name %></h4>
@@ -99,7 +209,9 @@
 
             </div>
           <% end %>
+
         <% end %>
+
       <% end %>
     </div>
   </div>
@@ -131,3 +243,23 @@
           style: "color: white; border: 0; background-color: #d35400;" %>
   <% end %>
 </footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function(btn) {
+      const targetId = btn.getAttribute('data-bs-target').replace('#', '');
+      const collapseEl = document.getElementById(targetId);
+      const arrowId = targetId.replace('collapse-', 'arrow-');
+      const arrow = document.getElementById(arrowId);
+
+      if (collapseEl && arrow) {
+        collapseEl.addEventListener('show.bs.collapse', function() {
+          arrow.style.transform = 'rotate(90deg)';
+        });
+        collapseEl.addEventListener('hide.bs.collapse', function() {
+          arrow.style.transform = 'rotate(0deg)';
+        });
+      }
+    });
+  });
+</script>
