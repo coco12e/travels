@@ -111,13 +111,13 @@
 
         <% if @category&.name == "Les plats typiques" %>
 
-          <div class="row row-cols-2 g-3 mb-4">
+          <div class="row row-cols-2 g-5 mb-4">
             <% places.each do |place| %>
               <div class="col">
                 <div class="card shadow-sm border-0" id="place-<%= place.id %>" style="display: flex; flex-direction: row; overflow: visible; border-radius: 8px;">
 
                   <%# Image à gauche - hauteur fixe indépendante %>
-                  <div style="width: 300px; min-width: 300px; height: 180px; position: relative; overflow: hidden; flex-shrink: 0; align-self: flex-start; border-radius: 8px 0 0 8px;">
+                  <div style="width: 300px; min-width: 300px; height: 200px; position: relative; overflow: hidden; flex-shrink: 0; align-self: flex-start; border-radius: 8px 0 0 8px;">
                     <% if place.photo_url.present? %>
                       <img
                         src="https://res.cloudinary.com/hxrgs7wcp/image/upload/<%= place.photo_url.strip.gsub(File.extname(place.photo_url.strip), "") %>"
@@ -131,14 +131,14 @@
                   </div>
 
                   <%# Contenu à droite %>
-                  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 14px; overflow: hidden;">
+                  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 30px; overflow: hidden;">
 
                     <%# Titre %>
-                    <h5 style="color: #070485; font-weight: 700; font-size: 1.5rem; margin-bottom: 8px;"><%= place.name %></h5>
+                    <h5 style="color: #070485; font-weight: 700; font-size: 1.5rem; margin-bottom: 22px;"><%= place.name %></h5>
 
                     <%# Tags %>
                     <% if place.tags.present? %>
-                      <div class="d-flex flex-wrap gap-1 mb-3">
+                      <div class="d-flex flex-wrap mb-4" style="gap: 14px;">
                         <% place.tags.split(",").each do |tag| %>
                           <span class="place-tag"><%= tag.strip %></span>
                         <% end %>

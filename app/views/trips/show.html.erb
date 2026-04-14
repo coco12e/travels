@@ -10,16 +10,19 @@
   </div>
 
   <div class="card shadow-sm border border-dark">
-    <div class="card-header bg-white text-center py-4 border-bottom border-dark">
-      <h2 class="fw-bold mb-0 text-dark">Résumé du voyage</h2>
-    </div>
-
     <div class="card-body p-0">
       <table class="table table-bordered mb-0 align-middle">
         <tbody>
 
+          <%# ---- SECTION VOLS ---- %>
+          <tr>
+            <td colspan="3" class="text-center fw-bold py-2 border-bottom border-dark" style="background-color: #f8f9fa;">
+              <span style="color: #070485; font-size: 1.15rem;">Les vols</span>
+            </td>
+          </tr>
+
           <tr class="border-bottom border-dark">
-            <td class="fw-bold px-4 border-end border-dark" style="width: 25%;">Les vols pour se rendre en Égypte</td>
+            <td class="fw-bold px-4 border-end border-dark" style="width: 25%; color: #070485; font-size: 1.05rem;">Les vols pour se rendre en Égypte</td>
             <td class="px-4 border-end border-dark" style="width: 55%;">
               <% if @trip.flight %>
                 <div>
@@ -39,14 +42,17 @@
             </td>
           </tr>
 
+          <%# ---- SECTIONS CATÉGORIES ---- %>
           <% @sub_categories_by_category.reject { |cat, _| cat.name == "Les plats typiques" }.each do |category, sub_cat_names| %>
             <tr>
-              <td colspan="3" class="text-center fw-bold py-2 bg-light border-bottom border-dark"><%= category.name %></td>
+              <td colspan="3" class="text-center fw-bold py-2 bg-light border-bottom border-dark">
+                <span style="color: #070485; font-size: 1.15rem;"><%= category.name %></span>
+              </td>
             </tr>
             <% effective_sub_cats = category.name == "Les déserts et le Nil" ? ["Les déserts : lieux à découvrir", "Le Nil : Croisière sur le Nil"] : sub_cat_names %>
             <% if effective_sub_cats.empty? %>
               <tr class="border-bottom border-dark">
-                <td class="fw-bold px-4 border-end border-dark">Activités</td>
+                <td class="fw-bold px-4 border-end border-dark" style="color: #070485; font-size: 1.05rem;">Activités</td>
                 <td class="px-4 border-end border-dark">
                   <% places = @bookmarks_by_category[category] || [] %>
                   <% if places.any? %>
@@ -62,7 +68,7 @@
             <% else %>
               <% effective_sub_cats.each do |sub_cat_name| %>
                 <tr class="border-bottom border-dark">
-                  <td class="px-4 border-end border-dark"><strong><%= sub_cat_name %></strong></td>
+                  <td class="px-4 border-end border-dark" style="color: #070485; font-size: 1.05rem;"><strong><%= sub_cat_name %></strong></td>
                   <td class="px-4 border-end border-dark">
                     <% places = (@bookmarks_by_category[category] || []).select { |p| p.sub_category == sub_cat_name } %>
                     <% if places.any? %>
@@ -79,12 +85,15 @@
             <% end %>
           <% end %>
 
+          <%# ---- SECTION TRANSPORTS ---- %>
           <tr>
-            <td colspan="3" class="text-center fw-bold py-2 bg-light border-bottom border-dark">Transports</td>
+            <td colspan="3" class="text-center fw-bold py-2 bg-light border-bottom border-dark">
+              <span style="color: #070485; font-size: 1.15rem;">Transports</span>
+            </td>
           </tr>
 
           <tr class="border-bottom border-dark">
-            <td class="fw-bold px-4 border-end border-dark">Transports dans le Pays</td>
+            <td class="fw-bold px-4 border-end border-dark" style="color: #070485; font-size: 1.05rem;">Transports dans le Pays</td>
             <td class="px-4 border-end border-dark">
               <% pays = @trip.transports.where(transport_type: "pays") %>
               <% if pays.any? %>
@@ -99,7 +108,7 @@
           </tr>
 
           <tr class="border-bottom border-dark">
-            <td class="fw-bold px-4 border-end border-dark">Transports dans les Villes</td>
+            <td class="fw-bold px-4 border-end border-dark" style="color: #070485; font-size: 1.05rem;">Transports dans les Villes</td>
             <td class="px-4 border-end border-dark">
               <% villes = @trip.transports.where(transport_type: "villes") %>
               <% if villes.any? %>
@@ -113,13 +122,13 @@
             </td>
           </tr>
 
+          <%# ---- BOUTON CONFIRMATION ---- %>
           <tr>
-            <td class="fw-bold px-4 py-4 border-end border-dark fs-4" style="color: #070485;">Valider</td>
-            <td colspan="2" class="px-4 text-center">
+            <td colspan="3" class="px-4 py-4 text-center">
               <% if @trip.confirmed? %>
-                <%= button_to "Modifier le voyage", confirm_trip_path(@trip, unconfirm: true), method: :patch, class: "btn btn-dark w-100 py-2" %>
+                <%= button_to "Modifier le voyage", confirm_trip_path(@trip, unconfirm: true), method: :patch, class: "btn btn-dark fw-bold py-3 fs-5", style: "width: 100%;" %>
               <% else %>
-                <%= button_to "Confirmer mon itinéraire", confirm_trip_path(@trip), method: :patch, class: "btn w-100 py-3 fw-bold text-white fs-5 border-0 rounded-2", style: "background-color: #d35400;" %>
+                <%= button_to "Confirmer mon itinéraire", confirm_trip_path(@trip), method: :patch, class: "btn fw-bold text-white fs-5 border-0 rounded-2 py-3", style: "background-color: #d35400; width: 100%;" %>
               <% end %>
             </td>
           </tr>
